@@ -1,0 +1,111 @@
+id: de.bwravencl.ControllerBuddy
+runtime: org.freedesktop.Platform
+runtime-version: '24.08'
+sdk: org.freedesktop.Sdk
+command: ControllerBuddy
+modules:
+  - name: ControllerBuddy
+    buildsystem: simple
+    build-commands:
+      - |
+        install -Dm755 install.sh /app/bin/ControllerBuddy-Install
+        install -Dm755 launch.sh /app/bin/ControllerBuddy
+        install -Dm755 update.sh /app/bin/ControllerBuddy-Update
+        install -Dm755 InstallControllerBuddy.sh /app/bin/InstallControllerBuddy.sh
+        install -Dm644 icon.svg /app/share/icons/hicolor/scalable/apps/de.bwravencl.ControllerBuddy.svg
+        SHORTCUTS_DIR=/app/share/applications
+        mkdir -p "$SHORTCUTS_DIR"
+        echo -e "[Desktop Entry]\nType=Application\nName=ControllerBuddy (Flatpak)\nIcon=de.bwravencl.ControllerBuddy\nExec=/app/bin/ControllerBuddy\nCategories=Game" > "$SHORTCUTS_DIR/de.bwravencl.ControllerBuddy.desktop"
+        echo -e "[Desktop Entry]\nType=Application\nName=Update ControllerBuddy (Flatpak)\nIcon=text-x-script\nExec=/app/bin/ControllerBuddy-Update\nTerminal=true\nCategories=Game" > "$SHORTCUTS_DIR/de.bwravencl.ControllerBuddy.Update.desktop"
+    sources:
+      - type: script
+        dest-filename: install.sh
+        commands:
+          - |
+            cd /tmp
+            cp /app/bin/InstallControllerBuddy.sh .
+            ./InstallControllerBuddy.sh "$@"
+      - type: script
+        dest-filename: launch.sh
+        commands:
+          - |
+            if [ ! -f "$HOME/ControllerBuddy/bin/ControllerBuddy" ]
+            then
+              xterm -e /app/bin/ControllerBuddy-Install
+            fi
+            "$HOME/ControllerBuddy/bin/ControllerBuddy" "$@"
+      - type: script
+        dest-filename: update.sh
+        commands:
+          - |
+            if [ ! -f "$HOME/ControllerBuddy/bin/InstallControllerBuddy.sh" ]
+            then
+              /app/bin/ControllerBuddy-Install "$@"
+            else
+              "$HOME/ControllerBuddy/bin/InstallControllerBuddy.sh" "$@"
+            fi
+      - type: file
+        url: https://raw.githubusercontent.com/bwRavencl/ControllerBuddy-Install-Script/590026c3dac159b814596e29ddbfc00e11de7cfb/InstallControllerBuddy.sh
+        sha256: 6d9a225ee45e5954e032984f8d9206dbb84476796ccdea406af2e0c551a6f2c6
+      - type: file
+        url: https://raw.githubusercontent.com/bwRavencl/ControllerBuddy/6417e0f975aa8228ddc4fcf76413e0230e1d2955/icon.svg
+        sha256: 22cb081b000a30f248e6c5f842a9519d933339d01449fe2889e3379cc5628523
+  - name: git
+    make-args:
+      - INSTALL_SYMLINKS=1
+    make-install-args:
+      - INSTALL_SYMLINKS=1
+    cleanup:
+      - "/lib/pkgconfig"
+      - "/man"
+    sources:
+    - type: archive
+      url: https://www.kernel.org/pub/software/scm/git/git-2.45.2.tar.xz
+      sha256: 51bfe87eb1c02fed1484051875365eeab229831d30d0cec5d89a14f9e40e9adb
+      x-checker-data:
+        type: anitya
+        project-id: 5350
+        stable-only: true
+        url-template: https://www.kernel.org/pub/software/scm/git/git-$version.tar.xz
+  - name: xterm
+    buildsystem: autotools
+    config-opts:
+      - --disable-full-tgetent
+    sources:
+      - type: archive
+        url: https://invisible-mirror.net/archives/xterm/xterm-392.tgz
+        sha256: 4d57372ef08eafa9fb7682db8d07be0fe0513e58e8478c2ec8e9b62486e7fe5e
+        x-checker-data:
+          type: anitya
+          project-id: 5272
+          url-template: https://invisible-mirror.net/archives/xterm/xterm-$version.tgz
+    modules:
+      - name: libXmu
+        buildsystem: autotools
+        sources:
+          - type: archive
+            url: https://xorg.freedesktop.org/releases/individual/lib/libXmu-1.2.1.tar.gz
+            sha256: bf0902583dd1123856c11e0a5085bd3c6e9886fbbd44954464975fd7d52eb599
+            x-checker-data:
+              type: anitya
+              project-id: 1785
+              url-template: https://xorg.freedesktop.org/releases/individual/lib/libXmu-$version.tar.gz
+      - name: libXaw
+        buildsystem: autotools
+        sources:
+          - type: archive
+            url: https://xorg.freedesktop.org/releases/individual/lib/libXaw-1.0.16.tar.gz
+            sha256: 012f90adf8739f2f023d63a5fee1528949cf2aba92ef7ac1abcfc2ae9cf28798
+            x-checker-data:
+              type: anitya
+              project-id: 1766
+              url-template: https://xorg.freedesktop.org/releases/individual/lib/libXaw-$version.tar.gz
+finish-args:
+  - --device=all
+  - --env=JAVA_TOOL_OPTIONS=-Djava.io.tmpdir=/var/tmp -Dawt.useSystemAAFontSettings=gasp
+  - --filesystem=xdg-documents
+  - --persist=ControllerBuddy
+  - --persist=.java
+  - --persist=.local/share/applications/ControllerBuddy
+  - --share=network
+  - --socket=x11

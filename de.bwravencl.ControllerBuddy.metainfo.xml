@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>de.bwravencl.ControllerBuddy</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>ControllerBuddy</name>
+  <summary>Highly advanced game controller mapping</summary>
+  <description>
+    <p>
+      ControllerBuddy is an advanced gamepad mapping software that supports the creation of input profiles for complex target applications such as flight simulators.
+    </p>
+    <p>
+      In addition to the simple mapping of buttons and axes of a physical game controller to keyboard and mouse input, ControllerBuddy also supports feeding input commands to a virtual joystick device (vJoy / uinput).
+    </p>
+    <p>
+      The goal of ControllerBuddy is to allow the user to control target applications exclusively with a gamepad without ever having to reach for a keyboard or mouse.
+    </p>
+  </description>
+  <launchable type="desktop-id">de.bwravencl.ControllerBuddy.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/bwRavencl/ControllerBuddy/master/example_screenshot_1.png</image>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/bwRavencl/ControllerBuddy/master/example_screenshot_2.png</image>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/bwRavencl/ControllerBuddy/master/example_screenshot_6.png</image>
+    </screenshot>
+  </screenshots>
+  <url type="homepage">https://controllerbuddy.org</url>
+  <url type="vcs-browse">https://github.com/bwRavencl/ControllerBuddy</url>
+  <developer_name>Matteo Hausner</developer_name>
+</component>
