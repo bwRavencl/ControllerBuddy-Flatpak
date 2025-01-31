@@ -1,0 +1,68 @@
+id: de.bwravencl.ControllerBuddy
+runtime: org.freedesktop.Platform
+runtime-version: '24.08'
+sdk: org.freedesktop.Sdk
+command: launch.sh
+finish-args:
+  - --device=all
+  - --filesystem=xdg-documents
+  - --persist=.java
+  - --share=network
+  - --socket=x11
+  - --share=ipc
+  - --talk-name=org.freedesktop.Flatpak
+  - --talk-name=org.freedesktop.PowerManagement
+  - --talk-name=org.freedesktop.ScreenSaver
+modules:
+  - name: ControllerBuddy
+    buildsystem: simple
+    build-commands:
+      - |
+        cp -R ControllerBuddy/* /app/ &&
+        install -Dm 755 launch.sh -t /app/bin &&
+        install -Dm 644 icon.svg "/app/share/icons/hicolor/scalable/apps/$FLATPAK_ID.svg" &&
+        install -Dm 644 "$FLATPAK_ID.desktop" -t /app/share/applications &&
+        install -Dm 644 "$FLATPAK_ID.metainfo.xml" -t /app/share/metainfo &&
+        cp -R ControllerBuddy-Profiles /app/share/
+    sources:
+      - type: archive
+        only-arches:
+          - x86_64
+        url: https://github.com/bwRavencl/ControllerBuddy/releases/download/1.3.76-3ac6443/ControllerBuddy-linux-x86-64-1.3.76-3ac6443.tgz
+        sha256: 326c2b03bdeb5ce9f7f33c4a4f025213ab20ebb4f40429dc0dc1d28ce5626498
+        strip-components: 0
+        x-checker-data:
+          type: anitya
+          project-id: 376393
+          stable-only: false
+          url-template: https://github.com/bwRavencl/ControllerBuddy/releases/download/$version/ControllerBuddy-linux-x86-64-$version.tgz
+      - type: archive
+        only-arches:
+          - aarch64
+        url: https://github.com/bwRavencl/ControllerBuddy/releases/download/1.3.76-3ac6443/ControllerBuddy-linux-aarch64-1.3.76-3ac6443.tgz
+        sha256: dc965380ac85aad9379c1d2cc4e2e9fc408d6aeb8254af094dcca34ce842aba4
+        strip-components: 0
+        x-checker-data:
+          type: anitya
+          project-id: 376393
+          stable-only: false
+          url-template: https://github.com/bwRavencl/ControllerBuddy/releases/download/$version/ControllerBuddy-linux-aarch64-$version.tgz
+      - type: file
+        url: https://raw.githubusercontent.com/bwRavencl/ControllerBuddy/refs/tags/1.3.76-3ac6443/icon.svg
+        sha256: 22cb081b000a30f248e6c5f842a9519d933339d01449fe2889e3379cc5628523
+        x-checker-data:
+          type: anitya
+          project-id: 376393
+          stable-only: false
+          url-template: https://raw.githubusercontent.com/bwRavencl/ControllerBuddy/refs/tags/$version/icon.svg
+      - type: file
+        path: launch.sh
+      - type: file
+        path: de.bwravencl.ControllerBuddy.desktop
+      - type: file
+        path: de.bwravencl.ControllerBuddy.metainfo.xml
+      - type: git
+        url: https://github.com/bwRavencl/ControllerBuddy-Profiles.git
+        branch: '1.3'
+        commit: c71c1a37911e3f089afdc8eb4b50123488a83bab
+        dest: ControllerBuddy-Profiles
