@@ -13,6 +13,7 @@ finish-args:
   - --talk-name=org.freedesktop.Flatpak
   - --talk-name=org.freedesktop.PowerManagement
   - --talk-name=org.freedesktop.ScreenSaver
+  - --talk-name=org.gnome.Shell.Extensions
 modules:
   - name: ControllerBuddy
     buildsystem: simple
