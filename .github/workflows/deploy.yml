@@ -27,6 +27,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          submodules: true
       - name: Setup QEMU
         if: ${{ matrix.arch == 'aarch64' }}
         id: qemu
