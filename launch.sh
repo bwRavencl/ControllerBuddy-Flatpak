@@ -34,7 +34,7 @@ if ! getent group "$cb_group" >/dev/null
 then
     show_message info "Please authenticate to create the '$cb_group' group."
     check_pkexec_installed
-    pkexec groupadd -f "$cb_group"
+    pkexec /usr/sbin/groupadd -f "$cb_group"
     check_retval "Failed to create the '$cb_group' group."
     reboot_required=true
 fi
