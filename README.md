@@ -10,11 +10,11 @@ In addition to the application itself, the package includes a copy of the offici
 ## ⬇️ Installation
 
 1. Add the repositiory with the following command:
-    ```
+    ```sh
     flatpak remote-add --if-not-exists ControllerBuddy https://flatpak.controllerbuddy.org/index.flatpakrepo
     ```
 2. Install the application by running:
-    ```
+    ```sh
     flatpak install de.bwravencl.ControllerBuddy
     ```
 
