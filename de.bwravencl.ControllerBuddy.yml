@@ -28,9 +28,9 @@ modules:
       - -Dbuiltin_loaders=bmp
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/gdk-pixbuf/2.42/gdk-pixbuf-2.42.12.tar.xz
+        url: https://download.gnome.org/sources/gdk-pixbuf/2.43/gdk-pixbuf-2.43.2.tar.xz
         commit: e4315fb8553776e13d39e3f2e0ea8792db61720c
-        sha256: b9505b3445b9a7e48ced34760c3bcb73e966df3ac94c95a148cb669ab748e3c7
+        sha256: a386a85c74021fa62d22297db122d231cc68fdd342761fb978c446f73f2606dc
         x-checker-data:
           type: gnome
           name: gdk-pixbuf
