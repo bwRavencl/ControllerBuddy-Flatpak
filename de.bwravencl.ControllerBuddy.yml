@@ -22,10 +22,16 @@ modules:
   - name: gdk-pixbuf
     buildsystem: meson
     config-opts:
-      - -Dothers=enabled
+      - -Dpng=disabled
+      - -Dtiff=disabled
+      - -Djpeg=disabled
+      - -Dgif=disabled
+      - -Dothers=disabled
+      - -Dglycin=disabled
+      - -Dbuiltin_loaders=bmp
+      - -Dthumbnailer=disabled
       - -Dman=false
       - -Dgtk_doc=false
-      - -Dbuiltin_loaders=bmp
     sources:
       - type: archive
         url: https://download.gnome.org/sources/gdk-pixbuf/2.43/gdk-pixbuf-2.43.3.tar.xz
