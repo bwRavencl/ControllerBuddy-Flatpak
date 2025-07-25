@@ -57,8 +57,8 @@ modules:
       - type: archive
         only-arches:
           - x86_64
-        url: https://github.com/bwRavencl/ControllerBuddy/releases/download/1.4.223-6ca39cc/ControllerBuddy-linux-x86-64-1.4.223-6ca39cc.tgz
-        sha256: 7f6ddce26be51f4981fb9ad99fb2190f843e64e5a44d4dabbaf1e46651aeed5e
+        url: https://github.com/bwRavencl/ControllerBuddy/releases/download/1.4.227-18d7b3c/ControllerBuddy-linux-x86-64-1.4.227-18d7b3c.tgz
+        sha256: d5534f587d8a251be2893055c8dc8b6b062160c56b684b0a8ae7d26d325f9d15
         strip-components: 0
         x-checker-data:
           type: anitya
@@ -68,8 +68,8 @@ modules:
       - type: archive
         only-arches:
           - aarch64
-        url: https://github.com/bwRavencl/ControllerBuddy/releases/download/1.4.223-6ca39cc/ControllerBuddy-linux-aarch64-1.4.223-6ca39cc.tgz
-        sha256: c551cf4e7f1b16f99371197002d8139f1900b7dff4dd163d35da75e4a50ce37f
+        url: https://github.com/bwRavencl/ControllerBuddy/releases/download/1.4.227-18d7b3c/ControllerBuddy-linux-aarch64-1.4.227-18d7b3c.tgz
+        sha256: 64b9325b645948d65a29e558ee128d4cb2bad61085ad590c874af403bb90a4e9
         strip-components: 0
         x-checker-data:
           type: anitya
@@ -77,7 +77,7 @@ modules:
           stable-only: false
           url-template: https://github.com/bwRavencl/ControllerBuddy/releases/download/$version/ControllerBuddy-linux-aarch64-$version.tgz
       - type: file
-        url: https://raw.githubusercontent.com/bwRavencl/ControllerBuddy/refs/tags/1.4.223-6ca39cc/icon.svg
+        url: https://raw.githubusercontent.com/bwRavencl/ControllerBuddy/refs/tags/1.4.227-18d7b3c/icon.svg
         sha256: 22cb081b000a30f248e6c5f842a9519d933339d01449fe2889e3379cc5628523
         x-checker-data:
           type: anitya
@@ -93,5 +93,5 @@ modules:
       - type: git
         url: https://github.com/bwRavencl/ControllerBuddy-Profiles.git
         branch: '1.4'
-        commit: 4b920063bce23824c13248b301d7fcae4432541a
+        commit: 1a429c468619f5ca709ec0ef45908b338f22f123
         dest: ControllerBuddy-Profiles
