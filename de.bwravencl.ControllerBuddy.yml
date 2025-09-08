@@ -34,9 +34,9 @@ modules:
       - -Dgtk_doc=false
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/gdk-pixbuf/2.43/gdk-pixbuf-2.43.5.tar.xz
+        url: https://download.gnome.org/sources/gdk-pixbuf/2.44/gdk-pixbuf-2.44.0.tar.xz
         commit: e4315fb8553776e13d39e3f2e0ea8792db61720c
-        sha256: a723ec2428427f857b8727dfbbe9dab77142a13fb6d0c47f95222251ae36ff15
+        sha256: 31d65c2db14d321b9d862a323fc63002179cf3cc0b10d04db6ed55ffaed00db3
         x-checker-data:
           type: gnome
           name: gdk-pixbuf
