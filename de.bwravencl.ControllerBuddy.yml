@@ -93,5 +93,5 @@ modules:
       - type: git
         url: https://github.com/bwRavencl/ControllerBuddy-Profiles.git
         branch: '1.4'
-        commit: 5196c1a5d7dc67cc8000547443480b422d88261b
+        commit: c439602500c9e9fe79a65d01a430fb319148cd94
         dest: ControllerBuddy-Profiles
