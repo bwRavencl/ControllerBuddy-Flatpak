@@ -57,8 +57,8 @@ modules:
       - type: archive
         only-arches:
           - x86_64
-        url: https://github.com/bwRavencl/ControllerBuddy/releases/download/1.4.324-3defebb5/ControllerBuddy-linux-x86-64-1.4.324-3defebb5.tgz
-        sha256: b5c2902f1eef49d00a07c5c1dce053371b6ef925827d5ade80a38b847d1ce4f2
+        url: https://github.com/bwRavencl/ControllerBuddy/releases/download/1.4.325-e3e5fb6f/ControllerBuddy-linux-x86-64-1.4.325-e3e5fb6f.tgz
+        sha256: d26aab901fdda4adadf352aca3859d332b1f5448fb15c22ea0915bdeb0d6de62
         strip-components: 0
         x-checker-data:
           type: anitya
@@ -68,8 +68,8 @@ modules:
       - type: archive
         only-arches:
           - aarch64
-        url: https://github.com/bwRavencl/ControllerBuddy/releases/download/1.4.324-3defebb5/ControllerBuddy-linux-aarch64-1.4.324-3defebb5.tgz
-        sha256: e4dd1661821938f95e7d4bb1e2640f94780964ad766b4ab2a98649b216c2c579
+        url: https://github.com/bwRavencl/ControllerBuddy/releases/download/1.4.325-e3e5fb6f/ControllerBuddy-linux-aarch64-1.4.325-e3e5fb6f.tgz
+        sha256: eda4d704cb34e400a9d7e54304252ce834579a45ad75c18d89f80e5b2d5cfabe
         strip-components: 0
         x-checker-data:
           type: anitya
@@ -77,7 +77,7 @@ modules:
           stable-only: false
           url-template: https://github.com/bwRavencl/ControllerBuddy/releases/download/$version/ControllerBuddy-linux-aarch64-$version.tgz
       - type: file
-        url: https://raw.githubusercontent.com/bwRavencl/ControllerBuddy/refs/tags/1.4.324-3defebb5/icon.svg
+        url: https://raw.githubusercontent.com/bwRavencl/ControllerBuddy/refs/tags/1.4.325-e3e5fb6f/icon.svg
         sha256: 22cb081b000a30f248e6c5f842a9519d933339d01449fe2889e3379cc5628523
         x-checker-data:
           type: anitya
@@ -93,5 +93,5 @@ modules:
       - type: git
         url: https://github.com/bwRavencl/ControllerBuddy-Profiles.git
         branch: '1.4'
-        commit: cdf01cd2e4d73360735ca43807c279760f5cc534
+        commit: 85ac5ef76e556fb365f7b308ba5359f16757b12c
         dest: ControllerBuddy-Profiles
