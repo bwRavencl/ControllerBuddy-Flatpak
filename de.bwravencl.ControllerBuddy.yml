@@ -92,6 +92,6 @@ modules:
         path: de.bwravencl.ControllerBuddy.metainfo.xml
       - type: git
         url: https://github.com/bwRavencl/ControllerBuddy-Profiles.git
-        branch: '1.5'
-        commit: 622d58b4928269cba81dd56bd6e3986e4f099356
+        branch: '1.6'
+        commit: 87004bbd182386b5ec48cbfbe6e1f051b97c9349
         dest: ControllerBuddy-Profiles
