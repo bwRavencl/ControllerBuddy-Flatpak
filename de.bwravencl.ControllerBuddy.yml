@@ -57,8 +57,8 @@ modules:
       - type: archive
         only-arches:
           - x86_64
-        url: https://github.com/bwRavencl/ControllerBuddy/releases/download/1.7.19-26f1c989/ControllerBuddy-linux-x86-64-1.7.19-26f1c989.tgz
-        sha256: 477d56bb70a2944891701b6a5f910dcd862397e73471913d45de74c4ae00cc0d
+        url: https://github.com/bwRavencl/ControllerBuddy/releases/download/1.7.20-db557b54/ControllerBuddy-linux-x86-64-1.7.20-db557b54.tgz
+        sha256: 1b430359cfe606af70945e94aec748ae28b65d42270bc7beb86f493f86fec5a3
         strip-components: 0
         x-checker-data:
           type: anitya
@@ -68,8 +68,8 @@ modules:
       - type: archive
         only-arches:
           - aarch64
-        url: https://github.com/bwRavencl/ControllerBuddy/releases/download/1.7.19-26f1c989/ControllerBuddy-linux-aarch64-1.7.19-26f1c989.tgz
-        sha256: b890052ac4cab8715c4b8f556c17a1204f8c54eabd09e463e2c5abc9a4bda12c
+        url: https://github.com/bwRavencl/ControllerBuddy/releases/download/1.7.20-db557b54/ControllerBuddy-linux-aarch64-1.7.20-db557b54.tgz
+        sha256: b66b47d881450bf46c24c33c1b71bdaa78a3515d2948f64dd4368915828424a4
         strip-components: 0
         x-checker-data:
           type: anitya
@@ -77,7 +77,7 @@ modules:
           stable-only: false
           url-template: https://github.com/bwRavencl/ControllerBuddy/releases/download/$version/ControllerBuddy-linux-aarch64-$version.tgz
       - type: file
-        url: https://raw.githubusercontent.com/bwRavencl/ControllerBuddy/refs/tags/1.7.19-26f1c989/icon.svg
+        url: https://raw.githubusercontent.com/bwRavencl/ControllerBuddy/refs/tags/1.7.20-db557b54/icon.svg
         sha256: 22cb081b000a30f248e6c5f842a9519d933339d01449fe2889e3379cc5628523
         x-checker-data:
           type: anitya
