@@ -22,13 +22,12 @@ modules:
   - name: gdk-pixbuf
     buildsystem: meson
     config-opts:
-      - -Dpng=disabled
       - -Dtiff=disabled
       - -Djpeg=disabled
       - -Dgif=disabled
       - -Dothers=disabled
       - -Dglycin=disabled
-      - -Dbuiltin_loaders=bmp
+      - -Dbuiltin_loaders=bmp,png
       - -Dthumbnailer=disabled
       - -Dman=false
       - -Dgtk_doc=false
