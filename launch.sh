@@ -1,11 +1,6 @@
 #!/bin/bash
 
 script=$(cat << 'EOF'
-function check_pkexec_installed() {
-    which pkexec >/dev/null 2>/dev/null
-    check_retval 'pkexec is not installed. Please restart this script after manually installing pkexec.'
-}
-
 function show_message() {
     flatpak run --command=zenity "$FLATPAK_ID" --window-icon /app/share/icons/hicolor/scalable/apps/"$FLATPAK_ID".svg --"$1" --text "$2" --width 450
 }
@@ -18,38 +13,19 @@ function check_retval() {
     fi
 }
 
-function add_line_if_missing() {
-    if [ ! -f "$1" ] || ! grep -qxF "$2" "$1"
-    then
-        show_message info "Please authenticate to add missing line\n<tt><small>$2</small></tt>\nto file <tt><small>$1</small></tt>."
-        check_pkexec_installed
-        echo "$2" | pkexec tee -a "$1" >/dev/null 2>/dev/null
+function ensure_file_content() {
+    if [ ! -f "$1" ] || [ "$(cat "$1" 2>/dev/null)" != "$2" ]; then
+        show_message info "Please authenticate to allow the initialization of: <tt><small>$1</small></tt>"
+        which pkexec >/dev/null 2>/dev/null
+        check_retval 'pkexec is not installed. Please restart this script after manually installing pkexec.'
+        echo "$2" | pkexec tee "$1" >/dev/null 2>/dev/null
         check_retval "Failed to write file <tt><small>$1</small></tt>."
         reboot_required=true
     fi
 }
 
-cb_group=controllerbuddy
-if ! getent group "$cb_group" >/dev/null
-then
-    show_message info "Please authenticate to create the '$cb_group' group."
-    check_pkexec_installed
-    pkexec /usr/sbin/groupadd -f "$cb_group"
-    check_retval "Failed to create the '$cb_group' group."
-    reboot_required=true
-fi
-
-if ! id -nGz "$USER" | grep -qzxF "$cb_group"
-then
-    show_message info "Please authenticate to add user '$USER' to the '$cb_group' group."
-    check_pkexec_installed
-    pkexec gpasswd -a "$USER" "$cb_group"
-    check_retval "Failed to add user '$USER' to the '$cb_group' group."
-    reboot_required=true
-fi
-
-add_line_if_missing '/etc/udev/rules.d/99-controllerbuddy.rules' 'KERNEL=="uinput", SUBSYSTEM=="misc", MODE="0660", GROUP="controllerbuddy"'
-add_line_if_missing '/etc/modules-load.d/uinput.conf' 'uinput'
+ensure_file_content /etc/udev/rules.d/99-controllerbuddy.rules 'KERNEL=="uinput", SUBSYSTEM=="misc", TAG+="uaccess", OPTIONS+="static_node=uinput"'
+ensure_file_content /etc/modules-load.d/controllerbuddy.conf uinput
 
 if [ "$reboot_required" = true ]
 then
