@@ -35,7 +35,6 @@ modules:
     sources:
       - type: archive
         url: https://download.gnome.org/sources/gdk-pixbuf/2.44/gdk-pixbuf-2.44.5.tar.xz
-        commit: e4315fb8553776e13d39e3f2e0ea8792db61720c
         sha256: 69b93e09139b80c0ee661503d60deb5a5874a31772b5184b9cd5462a4100ab68
         x-checker-data:
           type: gnome
