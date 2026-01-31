@@ -14,7 +14,8 @@ function check_retval() {
 }
 
 function ensure_file_content() {
-    if [ ! -f "$1" ] || [ "$(cat "$1" 2>/dev/null)" != "$2" ]; then
+    if [ ! -f "$1" ] || [ "$(cat "$1" 2>/dev/null)" != "$2" ]
+    then
         show_message info "Please authenticate to allow the initialization of: <tt><small>$1</small></tt>"
         which pkexec >/dev/null 2>/dev/null
         check_retval 'pkexec is not installed. Please restart this script after manually installing pkexec.'
