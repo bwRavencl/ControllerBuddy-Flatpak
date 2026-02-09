@@ -75,13 +75,13 @@ modules:
           stable-only: false
           url-template: https://github.com/bwRavencl/ControllerBuddy/releases/download/$version/ControllerBuddy-linux-aarch64-$version.tgz
       - type: file
-        url: https://raw.githubusercontent.com/bwRavencl/ControllerBuddy/refs/tags/1.7.70-3bfc117c/icon.svg
+        url: https://raw.githubusercontent.com/bwRavencl/ControllerBuddy/refs/tags/1.7.72-7b5712fe/icon/icon.svg
         sha256: 22cb081b000a30f248e6c5f842a9519d933339d01449fe2889e3379cc5628523
         x-checker-data:
           type: anitya
           project-id: 376393
           stable-only: false
-          url-template: https://raw.githubusercontent.com/bwRavencl/ControllerBuddy/refs/tags/$version/icon.svg
+          url-template: https://raw.githubusercontent.com/bwRavencl/ControllerBuddy/refs/tags/$version/icon/icon.svg
       - type: file
         path: launch.sh
       - type: file

@@ -50,31 +50,31 @@
   <screenshots>
     <screenshot type="default">
       <caption>Visualization Tab</caption>
-      <image type="source">https://raw.githubusercontent.com/bwRavencl/ControllerBuddy/master/screenshot_6.png</image>
+      <image type="source">https://raw.githubusercontent.com/bwRavencl/ControllerBuddy/master/screenshots/screenshot_6.png</image>
     </screenshot>
     <screenshot>
       <caption>Overlay and On-Screen Keyboard</caption>
-      <image type="source">https://raw.githubusercontent.com/bwRavencl/ControllerBuddy/master/screenshot_7.png</image>
+      <image type="source">https://raw.githubusercontent.com/bwRavencl/ControllerBuddy/master/screenshots/screenshot_7.png</image>
     </screenshot>
     <screenshot type="default">
       <caption>Modes Tab</caption>
-      <image type="source">https://raw.githubusercontent.com/bwRavencl/ControllerBuddy/master/screenshot_1.png</image>
+      <image type="source">https://raw.githubusercontent.com/bwRavencl/ControllerBuddy/master/screenshots/screenshot_1.png</image>
     </screenshot>
     <screenshot type="default">
       <caption>Assignments Tab</caption>
-      <image type="source">https://raw.githubusercontent.com/bwRavencl/ControllerBuddy/master/screenshot_2.png</image>
+      <image type="source">https://raw.githubusercontent.com/bwRavencl/ControllerBuddy/master/screenshots/screenshot_2.png</image>
     </screenshot>
     <screenshot>
       <caption>Component Editor (Button)</caption>
-      <image type="source">https://raw.githubusercontent.com/bwRavencl/ControllerBuddy/master/screenshot_3.png</image>
+      <image type="source">https://raw.githubusercontent.com/bwRavencl/ControllerBuddy/master/screenshots/screenshot_3.png</image>
     </screenshot>
     <screenshot>
       <caption>Component Editor (Axis)</caption>
-      <image type="source">https://raw.githubusercontent.com/bwRavencl/ControllerBuddy/master/screenshot_4.png</image>
+      <image type="source">https://raw.githubusercontent.com/bwRavencl/ControllerBuddy/master/screenshots/screenshot_4.png</image>
     </screenshot>
     <screenshot type="default">
       <caption>Overlay Tab (Dark Theme)</caption>
-      <image type="source">https://raw.githubusercontent.com/bwRavencl/ControllerBuddy/master/screenshot_5.png</image>
+      <image type="source">https://raw.githubusercontent.com/bwRavencl/ControllerBuddy/master/screenshots/screenshot_5.png</image>
     </screenshot>
   </screenshots>
   <content_rating type="oars-1.1"/>
