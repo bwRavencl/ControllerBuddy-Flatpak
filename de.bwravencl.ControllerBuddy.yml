@@ -55,8 +55,8 @@ modules:
       - type: archive
         only-arches:
           - x86_64
-        url: https://github.com/bwRavencl/ControllerBuddy/releases/download/1.8.46-308ba8fe/ControllerBuddy-linux-x86-64-1.8.46-308ba8fe.tgz
-        sha256: 19d758f5cd924e2d963212b5be9686b9ada0e1a7703e7b1ee07e8dbbb6dbc693
+        url: https://github.com/bwRavencl/ControllerBuddy/releases/download/1.8.47-88421ea5/ControllerBuddy-linux-x86-64-1.8.47-88421ea5.tgz
+        sha256: d502df07806b0e5e2047b69746a0799de29ad1f1265f0f4bb7681c0ccf5a2bee
         strip-components: 0
         x-checker-data:
           type: anitya
@@ -66,8 +66,8 @@ modules:
       - type: archive
         only-arches:
           - aarch64
-        url: https://github.com/bwRavencl/ControllerBuddy/releases/download/1.8.46-308ba8fe/ControllerBuddy-linux-aarch64-1.8.46-308ba8fe.tgz
-        sha256: 8489befb5695f70983a9fdf7a53ef5de64d1599bfe1ea16e541dccaab704a312
+        url: https://github.com/bwRavencl/ControllerBuddy/releases/download/1.8.47-88421ea5/ControllerBuddy-linux-aarch64-1.8.47-88421ea5.tgz
+        sha256: 8b4ca3af0b58d63fbf43aab76d13782a4dae92325909c3a123dde8b866c3be16
         strip-components: 0
         x-checker-data:
           type: anitya
@@ -75,7 +75,7 @@ modules:
           stable-only: false
           url-template: https://github.com/bwRavencl/ControllerBuddy/releases/download/$version/ControllerBuddy-linux-aarch64-$version.tgz
       - type: file
-        url: https://raw.githubusercontent.com/bwRavencl/ControllerBuddy/refs/tags/1.8.46-308ba8fe/icon/icon.svg
+        url: https://raw.githubusercontent.com/bwRavencl/ControllerBuddy/refs/tags/1.8.47-88421ea5/icon/icon.svg
         sha256: 22cb081b000a30f248e6c5f842a9519d933339d01449fe2889e3379cc5628523
         x-checker-data:
           type: anitya
