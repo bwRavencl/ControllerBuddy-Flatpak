@@ -33,8 +33,8 @@ modules:
       - -Dgtk_doc=false
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/gdk-pixbuf/2.44/gdk-pixbuf-2.44.5.tar.xz
-        sha256: 69b93e09139b80c0ee661503d60deb5a5874a31772b5184b9cd5462a4100ab68
+        url: https://download.gnome.org/sources/gdk-pixbuf/2.44/gdk-pixbuf-2.44.6.tar.xz
+        sha256: 140c2d0b899fcf853ee92b26373c9dc228dbcde0820a4246693f4328a27466fa
         x-checker-data:
           type: gnome
           name: gdk-pixbuf
@@ -55,8 +55,8 @@ modules:
       - type: archive
         only-arches:
           - x86_64
-        url: https://github.com/bwRavencl/ControllerBuddy/releases/download/1.8.65-24a7bf72/ControllerBuddy-linux-x86-64-1.8.65-24a7bf72.tgz
-        sha256: 37759d48b9e4d9b45c2b9e918169f3f3a935b0234786f2a29e5ab4f2a342df87
+        url: https://github.com/bwRavencl/ControllerBuddy/releases/download/1.8.66-34629a7c/ControllerBuddy-linux-x86-64-1.8.66-34629a7c.tgz
+        sha256: cf75be30b0c7a8acd46e102242dcfeeee13101ebddf70cded8029c7e1e927c35
         strip-components: 0
         x-checker-data:
           type: anitya
@@ -66,8 +66,8 @@ modules:
       - type: archive
         only-arches:
           - aarch64
-        url: https://github.com/bwRavencl/ControllerBuddy/releases/download/1.8.65-24a7bf72/ControllerBuddy-linux-aarch64-1.8.65-24a7bf72.tgz
-        sha256: 4fc3f3062b9d93fc50cd21d896f90b75f0ae855495659290a793d60539353ae1
+        url: https://github.com/bwRavencl/ControllerBuddy/releases/download/1.8.66-34629a7c/ControllerBuddy-linux-aarch64-1.8.66-34629a7c.tgz
+        sha256: ebe5640ae4895b28a8c4fa4727e130d2fcd731365364d9aff2d042ba92282084
         strip-components: 0
         x-checker-data:
           type: anitya
@@ -75,7 +75,7 @@ modules:
           stable-only: false
           url-template: https://github.com/bwRavencl/ControllerBuddy/releases/download/$version/ControllerBuddy-linux-aarch64-$version.tgz
       - type: file
-        url: https://raw.githubusercontent.com/bwRavencl/ControllerBuddy/refs/tags/1.8.65-24a7bf72/icon/icon.svg
+        url: https://raw.githubusercontent.com/bwRavencl/ControllerBuddy/refs/tags/1.8.66-34629a7c/icon/icon.svg
         sha256: 22cb081b000a30f248e6c5f842a9519d933339d01449fe2889e3379cc5628523
         x-checker-data:
           type: anitya
