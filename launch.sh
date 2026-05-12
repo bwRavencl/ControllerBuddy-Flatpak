@@ -2,7 +2,7 @@
 
 script=$(cat << 'EOF'
 function show_message() {
-    flatpak run --command=zenity "$FLATPAK_ID" --window-icon /app/share/icons/hicolor/scalable/apps/"$FLATPAK_ID".svg --"$1" --text "$2" --width 450
+    flatpak run --command=zenity "$FLATPAK_ID" --"$1" --text="$2" --title=ControllerBuddy --width=450
 }
 
 function check_retval() {
