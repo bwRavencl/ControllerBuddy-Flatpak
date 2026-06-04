@@ -3,6 +3,7 @@ runtime: org.freedesktop.Platform
 runtime-version: '25.08'
 sdk: org.freedesktop.Sdk
 command: launch.sh
+separate-locales: false
 finish-args:
   - --device=all
   - --filesystem=xdg-documents
