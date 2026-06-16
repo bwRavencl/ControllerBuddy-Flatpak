@@ -56,8 +56,8 @@ modules:
       - type: archive
         only-arches:
           - x86_64
-        url: https://github.com/bwRavencl/ControllerBuddy/releases/download/1.8.176-6b5e69c3/ControllerBuddy-linux-x86-64-1.8.176-6b5e69c3.tgz
-        sha256: 1b6e75a9680350e2aa6e2724ae65556b0282755dcd7e8dfefb97a117895824a4
+        url: https://github.com/bwRavencl/ControllerBuddy/releases/download/1.8.177-9c1244b0/ControllerBuddy-linux-x86-64-1.8.177-9c1244b0.tgz
+        sha256: 091e5f125c5fc07f3a51b6aeeb16c61cdb364bc8377639979a56dd213c4e1b53
         strip-components: 0
         x-checker-data:
           type: anitya
@@ -67,8 +67,8 @@ modules:
       - type: archive
         only-arches:
           - aarch64
-        url: https://github.com/bwRavencl/ControllerBuddy/releases/download/1.8.176-6b5e69c3/ControllerBuddy-linux-aarch64-1.8.176-6b5e69c3.tgz
-        sha256: 82d71518ac4900992e57d5303c517b7bf1af4cc14b8f44fd47b9c9accbad35b1
+        url: https://github.com/bwRavencl/ControllerBuddy/releases/download/1.8.177-9c1244b0/ControllerBuddy-linux-aarch64-1.8.177-9c1244b0.tgz
+        sha256: 8ceb04cd577dee0fcc629cff77c626cfe210e023b3ea9168c9170b14d5fea04e
         strip-components: 0
         x-checker-data:
           type: anitya
