@@ -1,0 +1,16 @@
+on:
+  schedule:
+    - cron: 0 0 1 * *
+  workflow_dispatch:
+
+jobs:
+  delete-caches:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      - name: Delete Caches
+        run: gh cache delete --all
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
