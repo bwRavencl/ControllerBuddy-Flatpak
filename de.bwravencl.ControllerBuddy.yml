@@ -56,8 +56,8 @@ modules:
       - type: archive
         only-arches:
           - x86_64
-        url: https://github.com/bwRavencl/ControllerBuddy/releases/download/1.8.230-4c6efa7f/ControllerBuddy-linux-x86-64-1.8.230-4c6efa7f.tgz
-        sha256: 1df9a3c50d930a7dbf2ff73ef9e3f6d679807b7e73fc621c01e95f635d07302e
+        url: https://github.com/bwRavencl/ControllerBuddy/releases/download/1.9.4-497dddf1/ControllerBuddy-linux-x86-64-1.9.4-497dddf1.tgz
+        sha256: df2646d0834460bfb7acbdad73753eafc59265d93b99681b8088acd8c54eed9d
         strip-components: 0
         x-checker-data:
           type: anitya
@@ -67,8 +67,8 @@ modules:
       - type: archive
         only-arches:
           - aarch64
-        url: https://github.com/bwRavencl/ControllerBuddy/releases/download/1.8.230-4c6efa7f/ControllerBuddy-linux-aarch64-1.8.230-4c6efa7f.tgz
-        sha256: a1c7c22b0ebc42a287f34d782e1e06624e358086393f99088cf2f5cc3c1b212c
+        url: https://github.com/bwRavencl/ControllerBuddy/releases/download/1.9.4-497dddf1/ControllerBuddy-linux-aarch64-1.9.4-497dddf1.tgz
+        sha256: c29d47d3119a8b2e759cb843dcb576985416db8c8c632e8deb1ff23634916bb0
         strip-components: 0
         x-checker-data:
           type: anitya
@@ -76,7 +76,7 @@ modules:
           stable-only: false
           url-template: https://github.com/bwRavencl/ControllerBuddy/releases/download/$version/ControllerBuddy-linux-aarch64-$version.tgz
       - type: file
-        url: https://raw.githubusercontent.com/bwRavencl/ControllerBuddy/refs/tags/1.8.93-74f199ed/icon/icon.svg
+        url: https://raw.githubusercontent.com/bwRavencl/ControllerBuddy/refs/tags/1.9.4-497dddf1/icon/icon.svg
         sha256: 22cb081b000a30f248e6c5f842a9519d933339d01449fe2889e3379cc5628523
         x-checker-data:
           type: anitya
@@ -91,6 +91,6 @@ modules:
         path: de.bwravencl.ControllerBuddy.metainfo.xml
       - type: git
         url: https://github.com/bwRavencl/ControllerBuddy-Profiles.git
-        branch: '1.8'
-        commit: 128ae2dbd65673391ae7e52af37fd31f59f73471
+        branch: '1.9'
+        commit: 23b5b4221e17485c363bc0a2be839396e6e693ee
         dest: ControllerBuddy-Profiles
