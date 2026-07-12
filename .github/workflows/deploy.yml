@@ -39,7 +39,7 @@ jobs:
       - name: Generate CNAME
         run: echo flatpak.controllerbuddy.org > CNAME
       - name: Build
-        uses: andyholmes/flatter@ba9d3856bb0e59b43ba4684fe72128003f1b7706 # main @ 2026-07-03
+        uses: andyholmes/flatter@ba9d3856bb0e59b43ba4684fe72128003f1b7706 # main
         with:
           files: de.bwravencl.ControllerBuddy.yml
           arch: ${{ matrix.arch }}
