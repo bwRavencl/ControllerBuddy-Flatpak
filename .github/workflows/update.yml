@@ -13,7 +13,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
       - name: Flatpak External Data Checker
-        uses: docker://ghcr.io/flathub/flatpak-external-data-checker:latest
+        uses: docker://ghcr.io/flathub-infra/flatpak-external-data-checker:latest@sha256:201790eb2aec873310766906e09209d29b9cea7582607a72ab3afcb57ae78f99
         env:
           GIT_AUTHOR_NAME: Flatpak External Data Checker
           GIT_COMMITTER_NAME: Flatpak External Data Checker
