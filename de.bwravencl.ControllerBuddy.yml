@@ -56,8 +56,8 @@ modules:
       - type: archive
         only-arches:
           - x86_64
-        url: https://github.com/bwRavencl/ControllerBuddy/releases/download/1.9.48-58c78614/ControllerBuddy-linux-x86-64-1.9.48-58c78614.tgz
-        sha256: 217800722d9a0900c45d81f2f38fa27c1b0f2b38ea7953728751a366c8dbd4b7
+        url: https://github.com/bwRavencl/ControllerBuddy/releases/download/1.9.49-7e8bcd89/ControllerBuddy-linux-x86-64-1.9.49-7e8bcd89.tgz
+        sha256: b5e3a5f84b55c02dccacd4fec92abbbfc1873ac42c37348f6408e40ee62601ff
         strip-components: 0
         x-checker-data:
           type: anitya
@@ -67,8 +67,8 @@ modules:
       - type: archive
         only-arches:
           - aarch64
-        url: https://github.com/bwRavencl/ControllerBuddy/releases/download/1.9.48-58c78614/ControllerBuddy-linux-aarch64-1.9.48-58c78614.tgz
-        sha256: d92e490bbf2669c15972cb34fd45102a3988938f2b69b7dcf379b0c8eee77444
+        url: https://github.com/bwRavencl/ControllerBuddy/releases/download/1.9.49-7e8bcd89/ControllerBuddy-linux-aarch64-1.9.49-7e8bcd89.tgz
+        sha256: 9c2778d380aa87cf933be09d05c0ffd62d70e1bc70abc463e970406cbfe8e0e4
         strip-components: 0
         x-checker-data:
           type: anitya
@@ -92,5 +92,5 @@ modules:
       - type: git
         url: https://github.com/bwRavencl/ControllerBuddy-Profiles.git
         branch: '1.9'
-        commit: ffa1581856dc24b587e28cdad09bbede7690da1c
+        commit: 242f5378f0d9343d942747452e308215ca6f66cd
         dest: ControllerBuddy-Profiles
