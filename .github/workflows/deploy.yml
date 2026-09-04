@@ -58,14 +58,6 @@ jobs:
             --repo=repo \
             build \
             de.bwravencl.ControllerBuddy.yml
-      - name: Update Repo Summary
-        run: |
-          mkdir -p repo/refs/remotes
-          flatpak build-update-repo \
-            --gpg-sign=${{ steps.gpg.outputs.fingerprint }} \
-            --generate-static-deltas \
-            --prune \
-            repo
       - name: Upload x86_64 Repo Artifact
         if: matrix.arch == 'x86_64'
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
@@ -73,6 +65,15 @@ jobs:
           name: repo-x86_64
           path: repo
           retention-days: 1
+      - name: Update Repo
+        if: matrix.arch == 'aarch64'
+        run: |
+          mkdir -p repo/refs/remotes
+          flatpak build-update-repo \
+            --gpg-sign=${{ steps.gpg.outputs.fingerprint }} \
+            --generate-static-deltas \
+            --prune \
+            repo
       - name: Generate CNAME
         if: matrix.arch == 'aarch64'
         run: echo flatpak.controllerbuddy.org > repo/CNAME
