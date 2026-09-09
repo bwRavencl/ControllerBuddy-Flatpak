@@ -48,6 +48,9 @@ modules:
       - |
         cp -R ControllerBuddy/* /app/ &&
         install -Dm 755 launch.sh -t /app/bin &&
+        install -Dm 755 dosbox-wrapper.sh -t /app/share &&
+        install -Dm 755 proton-wrapper.sh -t /app/share &&
+        install -Dm 644 wrapper-utils.sh -t /app/share &&
         install -Dm 644 icon.svg "/app/share/icons/hicolor/scalable/apps/$FLATPAK_ID.svg" &&
         install -Dm 644 "$FLATPAK_ID.desktop" -t /app/share/applications &&
         install -Dm 644 "$FLATPAK_ID.metainfo.xml" -t /app/share/metainfo &&
@@ -85,6 +88,12 @@ modules:
           url-template: https://raw.githubusercontent.com/bwRavencl/ControllerBuddy/refs/tags/$version/icon/icon.svg
       - type: file
         path: launch.sh
+      - type: file
+        path: dosbox-wrapper.sh
+      - type: file
+        path: proton-wrapper.sh
+      - type: file
+        path: wrapper-utils.sh
       - type: file
         path: de.bwravencl.ControllerBuddy.desktop
       - type: file
