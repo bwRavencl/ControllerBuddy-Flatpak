@@ -20,7 +20,7 @@ To install the ControllerBuddy Flatpak package, follow these steps:
 2. Install the application by running:
 
     ```sh
-    flatpak install de.bwravencl.ControllerBuddy
+    flatpak install -y ControllerBuddy de.bwravencl.ControllerBuddy
     ```
 
 ## ⚖️ License
