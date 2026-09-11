@@ -3,7 +3,7 @@
 
 ## 📖 Description
 
-This repository represents the official Flatpak package of [ControllerBuddy](https://controllerbuddy.org), the highly advanced game controller mapping application.
+This repository provides the official Flatpak package for [ControllerBuddy](https://controllerbuddy.org), the highly advanced game controller mapping application.
 
 In addition to the application itself, the package includes a copy of the official [ControllerBuddy-Profiles](https://github.com/bwRavencl/ControllerBuddy-Profiles) located under `/app/share/ControllerBuddy-Profiles`.
 
