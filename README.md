@@ -11,7 +11,7 @@ In addition to the application itself, the package includes a copy of the offici
 
 To install the ControllerBuddy Flatpak package, follow these steps:
 
-1. Add the repositiory with the following command:
+1. Add the repository with the following command:
 
     ```sh
     flatpak remote-add --if-not-exists ControllerBuddy https://flatpak.controllerbuddy.org/index.flatpakrepo
