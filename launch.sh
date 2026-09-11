@@ -2,25 +2,34 @@
 
 script=$(cat << 'EOF'
 function show_message() {
-    flatpak run --command=zenity "$FLATPAK_ID" --"$1" --text="$2" --title=ControllerBuddy --width=450
+    local level="$1"
+    local message="$2"
+
+    flatpak run --command=zenity "$FLATPAK_ID" --"$level" --text="$message" --title=ControllerBuddy --width=450
 }
 
 function check_retval() {
-    if [ "$?" -ne 0 ]
+    local retval=$?
+    local error_message="$1"
+
+    if [ "$retval" -ne 0 ]
     then
-        show_message error "<b>Error:</b> $1"
+        show_message error "<b>Error:</b> $error_message"
         exit 1
     fi
 }
 
 function ensure_file_content() {
-    if [ ! -f "$1" ] || [ "$(cat "$1" 2>/dev/null)" != "$2" ]
+    local file="$1"
+    local content="$2"
+
+    if [ ! -f "$file" ] || [ "$(cat "$file" 2>/dev/null)" != "$content" ]
     then
-        show_message info "Please authenticate to allow the initialization of: <tt><small>$1</small></tt>"
+        show_message info "Please authenticate to allow the initialization of: <tt><small>$file</small></tt>"
         which pkexec >/dev/null 2>/dev/null
         check_retval 'pkexec is not installed. Please restart this script after manually installing pkexec.'
-        echo "$2" | pkexec tee "$1" >/dev/null 2>/dev/null
-        check_retval "Failed to write file <tt><small>$1</small></tt>."
+        echo "$content" | pkexec tee "$file" >/dev/null 2>/dev/null
+        check_retval "Failed to write file <tt><small>$file</small></tt>."
         reboot_required=true
     fi
 }
