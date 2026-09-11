@@ -2,15 +2,15 @@
 
 script=$(cat << 'EOF'
 function show_message() {
-    local level="$1"
-    local message="$2"
+    local -r level="$1"
+    local -r message="$2"
 
     flatpak run --command=zenity "$FLATPAK_ID" --"$level" --text="$message" --title=ControllerBuddy --width=450
 }
 
 function check_retval() {
-    local retval=$?
-    local error_message="$1"
+    local -r retval=$?
+    local -r error_message="$1"
 
     if [ "$retval" -ne 0 ]
     then
@@ -20,8 +20,8 @@ function check_retval() {
 }
 
 function ensure_file_content() {
-    local file="$1"
-    local content="$2"
+    local -r file="$1"
+    local -r content="$2"
 
     if [ ! -f "$file" ] || [ "$(cat "$file" 2>/dev/null)" != "$content" ]
     then
@@ -44,6 +44,7 @@ then
 fi
 EOF
 )
+readonly script
 
 if ! flatpak-spawn --host /bin/bash -c "FLATPAK_ID=$FLATPAK_ID ; $script"
 then
