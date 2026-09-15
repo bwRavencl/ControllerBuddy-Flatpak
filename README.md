@@ -47,10 +47,10 @@ The `proton-wrapper.sh` script automates the following steps:
 - Launches the game
 - Shuts down ControllerBuddy when the game exits
 
-To use it, add the following to the game's **Launch Options** in Steam (replace `<profile.js>` with the ControllerBuddy profile filename):
+To use it, add the following to the game's **Launch Options** in Steam (replace `<profile.json>` with the ControllerBuddy profile filename):
 
 ```sh
-"$("$STEAM_RUNTIME"/scripts/switch-runtime.sh --runtime='' -- flatpak info -l de.bwravencl.ControllerBuddy)/files/share/proton-wrapper.sh" <profile.js> %command%
+"$("$STEAM_RUNTIME"/scripts/switch-runtime.sh --runtime='' -- flatpak info -l de.bwravencl.ControllerBuddy)/files/share/proton-wrapper.sh" <profile.json> %command%
 ```
 
 > [!IMPORTANT]
@@ -71,12 +71,12 @@ The `dosbox-wrapper.sh` script automates the following steps:
 Call the script as follows:
 
 ```sh
-"$(flatpak info -l de.bwravencl.ControllerBuddy)/files/share/dosbox-wrapper.sh" <profile.js> <dosbox.conf> [mouse_sensitivity]
+"$(flatpak info -l de.bwravencl.ControllerBuddy)/files/share/dosbox-wrapper.sh" <profile.json> <dosbox.conf> [mouse_sensitivity]
 ```
 
 | Argument            | Description                                                      |
 |---------------------|------------------------------------------------------------------|
-| `profile.js`        | Filename of the ControllerBuddy profile                          |
+| `profile.json`      | Filename of the ControllerBuddy profile                          |
 | `dosbox.conf`       | Path of the DOSBox configuration file                            |
 | `mouse_sensitivity` | Optional floating-point value setting the scale for mouse motion |
 
