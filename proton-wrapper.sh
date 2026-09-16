@@ -33,19 +33,6 @@ check_dep() {
     check_retval "Failed to locate <tt><small>$target</small></tt>\nPlease check that $name is installed."
 }
 
-bypass_steam_runtime() {
-    if [ -n "$STEAM_RUNTIME" ]
-    then
-        "$STEAM_RUNTIME"/scripts/switch-runtime.sh --runtime='' -- "$@"
-    else
-        command "$@"
-    fi
-}
-
-flatpak() {
-    bypass_steam_runtime flatpak "$@"
-}
-
 python3() {
     bypass_steam_runtime python3 "$@"
 }

@@ -59,6 +59,19 @@ on_exit() {
 
 trap on_exit EXIT
 
+bypass_steam_runtime() {
+    if [ -n "$STEAM_RUNTIME" ]
+    then
+        "$STEAM_RUNTIME"/scripts/switch-runtime.sh --runtime='' -- "$@"
+    else
+        command "$@"
+    fi
+}
+
+flatpak() {
+    bypass_steam_runtime flatpak "$@"
+}
+
 zenity() {
     flatpak run --command=zenity "$cb_app_id" --title="ControllerBuddy - $script_name" --width=450 "$@"
 }
