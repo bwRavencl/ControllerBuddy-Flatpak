@@ -58,7 +58,7 @@ get_protontricks_verbs() {
 
     case "$cb_profile" in
         DCS_*)
-            echo 'd3d_compiler47 vcrun2022'
+            echo 'd3dcompiler_47 vcrun2022'
             ;;
         F-22_ADF|Strike_Fighters)
             echo directplay
