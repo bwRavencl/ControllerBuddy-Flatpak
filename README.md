@@ -75,6 +75,12 @@ Call the script as follows:
 "$(flatpak info -l de.bwravencl.ControllerBuddy)/files/share/dosbox-wrapper.sh" <profile.json> <dosbox.conf> [mouse_sensitivity]
 ```
 
+Or, alternatively, as part of **Launch Options** in Steam, i.e., from within a Steam Runtime container:
+
+```sh
+IGNORE='%command%'; "$("$STEAM_RUNTIME"/scripts/switch-runtime.sh --runtime='' -- flatpak info -l de.bwravencl.ControllerBuddy)/files/share/dosbox-wrapper.sh" <profile.json> <dosbox.conf> [mouse_sensitivity]
+```
+
 | Argument            | Description                                                      |
 |---------------------|------------------------------------------------------------------|
 | `profile.json`      | Filename of the ControllerBuddy profile                          |
