@@ -38,7 +38,9 @@ python3() {
 }
 
 resolve_config_dir_name() {
-    case "$1" in
+    local -r cb_profile="$1"
+
+    case "$cb_profile" in
         DCS_*)
             echo DCS
             ;;
@@ -52,7 +54,9 @@ resolve_config_dir_name() {
 }
 
 get_protontricks_verbs() {
-    case "$1" in
+    local -r cb_profile="$1"
+
+    case "$cb_profile" in
         DCS_*)
             echo 'd3d_compiler47 vcrun2022'
             ;;
