@@ -54,8 +54,9 @@ To use it, add the following to the game's **Launch Options** in Steam (replace 
 ```
 
 > [!IMPORTANT]
-> The `%command%` argument must be appended as shown above - it gets substituted by Steam with the actual launch command.
-> Definitions of environment variables can be prepended as required.
+> The `%command%` argument must be appended as shown above.
+> Steam substitutes it with the actual launch command.
+> Definitions of environment variables can be added at the beginning of the line, if necessary.
 
 ### 📺 DOSBox Wrapper
 
