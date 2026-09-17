@@ -140,7 +140,7 @@ resolve_cb_profile() {
 update_cb() {
     show_progress 'Updating ControllerBuddy...'
 
-    flatpak update -y "$cb_app_id" ||
+    flatpak update -y  --noninteractive "$cb_app_id" ||
     show_message warning 'Failed to update ControllerBuddy via Flatpak'
 }
 
@@ -200,12 +200,12 @@ ensure_flatpak_app_installed() {
         show_progress "Installing $display_name..."
 
         flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo &&
-        flatpak install -y flathub "$app_id"
+        flatpak install -y --noninteractive flathub "$app_id"
         check_retval "Failed to install $display_name via Flatpak"
     else
         show_progress "Updating $display_name..."
 
-        flatpak update -y "$app_id" ||
+        flatpak update -y --noninteractive "$app_id" ||
         show_message warning "Failed to update $display_name via Flatpak"
     fi
 }
