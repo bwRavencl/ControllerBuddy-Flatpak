@@ -58,7 +58,6 @@ jobs:
             --arch=${{ matrix.arch }} \
             --disable-rofiles-fuse \
             --force-clean \
-            --install-deps-from=flathub \
             --gpg-sign=${{ steps.gpg.outputs.fingerprint }} \
             --repo=repo \
             build \
