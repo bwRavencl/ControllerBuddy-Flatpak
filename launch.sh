@@ -34,8 +34,20 @@ function ensure_file_content() {
     fi
 }
 
-ensure_file_content /etc/udev/rules.d/60-controllerbuddy.rules 'KERNEL=="uinput", SUBSYSTEM=="misc", TAG+="uaccess", OPTIONS+="static_node=uinput"'
-ensure_file_content /etc/modules-load.d/controllerbuddy.conf uinput
+function ensure_udev_rule() {
+    ensure_file_content /etc/udev/rules.d/60-controllerbuddy.rules 'KERNEL=="uinput", SUBSYSTEM=="misc", TAG+="uaccess", OPTIONS+="static_node=uinput"'
+}
+
+if [ -e /dev/uinput ]
+then
+    if [ ! -r /dev/uinput ] || [ ! -w /dev/uinput ]
+    then
+        ensure_udev_rule
+    fi
+else
+    ensure_file_content /etc/modules-load.d/controllerbuddy.conf uinput
+    ensure_udev_rule
+fi
 
 if [ "$reboot_required" = true ]
 then
