@@ -73,7 +73,7 @@ flatpak() {
 }
 
 zenity() {
-    flatpak run --command=zenity "$cb_app_id" --title="ControllerBuddy - $script_name" --width=450 "$@"
+    flatpak run --command=zenity "$cb_app_id" --title="ControllerBuddy - $script_name" --width=450 --window-icon=/app/lib/ControllerBuddy.png "$@"
 }
 
 show_message() {

@@ -5,7 +5,7 @@ function show_message() {
     local -r level="$1"
     local -r message="$2"
 
-    flatpak run --command=zenity "$FLATPAK_ID" --"$level" --text="$message" --title=ControllerBuddy --width=450
+    flatpak run --command=zenity "$FLATPAK_ID" --"$level" --text="$message" --title=ControllerBuddy --width=450 --window-icon=/app/lib/ControllerBuddy.png
 }
 
 function check_retval() {
