@@ -1,6 +1,9 @@
 name: Check for Updates
 
 on:
+  repository_dispatch:
+    types:
+      - new-release
   schedule:
     - cron: 0 */6 * * *
   workflow_dispatch:
