@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 wrapper_utils_sh=wrapper-utils.sh
 readonly wrapper_utils_sh
