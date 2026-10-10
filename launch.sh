@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 script=$(cat << 'EOF'
 function show_message() {
