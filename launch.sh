@@ -58,7 +58,7 @@ EOF
 )
 readonly script
 
-if ! flatpak-spawn --host /bin/bash -c "FLATPAK_ID=$FLATPAK_ID ; $script"
+if ! flatpak-spawn --host bash -c "FLATPAK_ID=$FLATPAK_ID ; $script"
 then
     exit "$?"
 fi
