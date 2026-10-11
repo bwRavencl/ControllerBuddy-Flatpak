@@ -5,6 +5,13 @@ on:
     branches:
       - master
 
+env:
+  REPO_TITLE: ControllerBuddy
+  REPO_COMMENT: Provides the Flatpak package of ControllerBuddy
+  REPO_DOMAIN: flatpak.controllerbuddy.org
+  REPO_HOMEPAGE: https://controllerbuddy.org
+  REPO_ICON_URL: https://raw.githubusercontent.com/bwRavencl/ControllerBuddy/refs/heads/master/icon/icon.svg
+
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -75,9 +82,25 @@ jobs:
           mkdir -p repo/refs/remotes
           flatpak build-update-repo \
             --gpg-sign=${{ steps.gpg.outputs.fingerprint }} \
+            --title="$REPO_TITLE" \
+            --comment="$REPO_COMMENT" \
+            --homepage="$REPO_HOMEPAGE" \
+            --icon="$REPO_ICON_URL" \
             --generate-static-deltas \
             --prune \
             repo
+      - name: Generate Index
+        if: matrix.arch == 'aarch64'
+        run: |
+          cat > repo/index.flatpakrepo <<EOF
+          [Flatpak Repo]
+          Title=$REPO_TITLE
+          Url=https://$REPO_DOMAIN
+          Homepage=$REPO_HOMEPAGE
+          Comment=$REPO_COMMENT
+          Icon=$REPO_ICON_URL
+          GPGKey=$(gpg --export ${{ steps.gpg.outputs.fingerprint }} | base64 --wrap=0)
+          EOF
       - name: Generate CNAME
         if: matrix.arch == 'aarch64'
         run: echo flatpak.controllerbuddy.org > repo/CNAME
