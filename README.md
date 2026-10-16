@@ -47,11 +47,19 @@ The `proton-wrapper.sh` script automates the following steps:
 - Launches the game
 - Shuts down ControllerBuddy when the game exits
 
-To use it, add the following to the game's **Launch Options** in Steam (replace `<profile.json>` with the ControllerBuddy profile filename):
+Use the following commands as the game's **Launch Options** in Steam (replace `<profile.json>` with the ControllerBuddy profile filename).
 
-```sh
-"$("$STEAM_RUNTIME"/scripts/switch-runtime.sh --runtime='' -- flatpak info -l de.bwravencl.ControllerBuddy)/files/share/proton-wrapper.sh" <profile.json> %command%
-```
+- For **regular Steam games**:
+
+    ```sh
+    "$(steam-runtime-launch-client --host -- flatpak info -l de.bwravencl.ControllerBuddy)/files/share/proton-wrapper.sh" <profile.json> %command%
+    ```
+
+- For **Non-Steam games** that have been added to Steam:
+
+    ```sh
+    "$(flatpak info -l de.bwravencl.ControllerBuddy)/files/share/proton-wrapper.sh" <profile.json> %command%
+    ```
 
 > [!IMPORTANT]
 > The `%command%` argument must be appended as shown above.
@@ -69,17 +77,19 @@ The `dosbox-wrapper.sh` script automates the following steps:
 - Launches DOSBox
 - Shuts down ControllerBuddy when DOSBox exits
 
-Call the script as follows:
+Use the following commands (replace `<profile.json>` with the ControllerBuddy profile filename and `<dosbox.conf>` with the path of the DOSBox configuration file).
 
-```sh
-"$(flatpak info -l de.bwravencl.ControllerBuddy)/files/share/dosbox-wrapper.sh" <profile.json> <dosbox.conf> [mouse_sensitivity]
-```
+- For **regular DOS games**:
 
-Or, alternatively, as part of **Launch Options** in Steam, i.e., from within a Steam Runtime container:
+    ```sh
+    "$(flatpak info -l de.bwravencl.ControllerBuddy)/files/share/dosbox-wrapper.sh" <profile.json> <dosbox.conf> [mouse_sensitivity]
+    ```
 
-```sh
-IGNORE='%command%'; "$("$STEAM_RUNTIME"/scripts/switch-runtime.sh --runtime='' -- flatpak info -l de.bwravencl.ControllerBuddy)/files/share/dosbox-wrapper.sh" <profile.json> <dosbox.conf> [mouse_sensitivity]
-```
+- For **DOS games bought on Steam**:
+
+    ```sh
+    IGNORE='%command%'; "$(steam-runtime-launch-client --host -- flatpak info -l de.bwravencl.ControllerBuddy)/files/share/dosbox-wrapper.sh" <profile.json> <dosbox.conf> [mouse_sensitivity]
+    ```
 
 | Argument            | Description                                                      |
 |---------------------|------------------------------------------------------------------|
