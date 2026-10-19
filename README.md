@@ -1,4 +1,5 @@
 <!-- markdownlint-disable-file line-length -->
+
 # ControllerBuddy-Flatpak
 
 ## 📖 Description
