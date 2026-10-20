@@ -10,6 +10,7 @@ finish-args:
   - --filesystem=/tmp
   - --persist=.java
   - --share=network
+  - --socket=wayland
   - --socket=x11
   - --share=ipc
   - --talk-name=org.freedesktop.Flatpak
