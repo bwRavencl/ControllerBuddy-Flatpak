@@ -5,6 +5,13 @@ on:
     branches:
       - master
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
 env:
   REPO_TITLE: ControllerBuddy
   REPO_COMMENT: Provides the Flatpak package of ControllerBuddy
@@ -18,12 +25,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
       - name: Run ShellCheck
         uses: ludeeus/action-shellcheck@00cae500b08a931fb5698e11e79bfbd38e612a38 # 2.0.0
         with:
           check_together: yes
       - name: Lint Markdown Files
-        uses: DavidAnson/markdownlint-cli2-action@21c1be1b93ad9ed58fa840aacc3f279cde2a72ff #v24
+        uses: DavidAnson/markdownlint-cli2-action@21c1be1b93ad9ed58fa840aacc3f279cde2a72ff # v24
         with:
           globs: |
             **/*.md
@@ -46,6 +55,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
+          persist-credentials: false
           submodules: true
       - name: Import GPG Key
         uses: crazy-max/ghaction-import-gpg@2dc316deee8e90f13e1a351ab510b4d5bc0c82cd # v7
@@ -60,12 +70,15 @@ jobs:
           name: repo-x86_64
           path: repo
       - name: Build Flatpak
+        env:
+          ARCH: ${{ matrix.arch }}
+          GPG_FINGERPRINT: ${{ steps.gpg.outputs.fingerprint }}
         run: |
           flatpak-builder \
-            --arch=${{ matrix.arch }} \
+            --arch="$ARCH" \
             --disable-rofiles-fuse \
             --force-clean \
-            --gpg-sign=${{ steps.gpg.outputs.fingerprint }} \
+            --gpg-sign="$GPG_FINGERPRINT" \
             --repo=repo \
             build \
             de.bwravencl.ControllerBuddy.yml
@@ -78,10 +91,12 @@ jobs:
           retention-days: 1
       - name: Update Repo
         if: matrix.arch == 'aarch64'
+        env:
+          GPG_FINGERPRINT: ${{ steps.gpg.outputs.fingerprint }}
         run: |
           mkdir -p repo/refs/remotes
           flatpak build-update-repo \
-            --gpg-sign=${{ steps.gpg.outputs.fingerprint }} \
+            --gpg-sign="$GPG_FINGERPRINT" \
             --title="$REPO_TITLE" \
             --comment="$REPO_COMMENT" \
             --homepage="$REPO_HOMEPAGE" \
@@ -91,7 +106,16 @@ jobs:
             repo
       - name: Generate Index
         if: matrix.arch == 'aarch64'
+        env:
+          GPG_FINGERPRINT: ${{ steps.gpg.outputs.fingerprint }}
         run: |
+          set -o pipefail
+          gpg_key=$(gpg --export "$GPG_FINGERPRINT" | base64 --wrap=0)
+          if [ -z "$gpg_key" ]
+          then
+            echo "::error::Exporting the GPG public key produced no output"
+            exit 1
+          fi
           cat > repo/index.flatpakrepo <<EOF
           [Flatpak Repo]
           Title=$REPO_TITLE
@@ -99,11 +123,11 @@ jobs:
           Homepage=$REPO_HOMEPAGE
           Comment=$REPO_COMMENT
           Icon=$REPO_ICON_URL
-          GPGKey=$(gpg --export ${{ steps.gpg.outputs.fingerprint }} | base64 --wrap=0)
+          GPGKey=$gpg_key
           EOF
       - name: Generate CNAME
         if: matrix.arch == 'aarch64'
-        run: echo flatpak.controllerbuddy.org > repo/CNAME
+        run: echo "$REPO_DOMAIN" > repo/CNAME
       - name: Upload Pages Artifact
         if: matrix.arch == 'aarch64'
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5

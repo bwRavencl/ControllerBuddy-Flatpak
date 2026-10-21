@@ -8,6 +8,13 @@ on:
     - cron: 0 */6 * * *
   workflow_dispatch:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
 jobs:
   check-updates:
     runs-on: ubuntu-latest
@@ -18,7 +25,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - name: Flatpak External Data Checker
-        uses: docker://ghcr.io/flathub-infra/flatpak-external-data-checker:latest@sha256:201790eb2aec873310766906e09209d29b9cea7582607a72ab3afcb57ae78f99
+        uses: docker://ghcr.io/flathub-infra/flatpak-external-data-checker@sha256:201790eb2aec873310766906e09209d29b9cea7582607a72ab3afcb57ae78f99
         env:
           GIT_AUTHOR_NAME: Flatpak External Data Checker
           GIT_COMMITTER_NAME: Flatpak External Data Checker
