@@ -125,6 +125,26 @@ jobs:
           Icon=$REPO_ICON_URL
           GPGKey=$gpg_key
           EOF
+      - name: Verify Repo
+        if: matrix.arch == 'aarch64'
+        run: |
+          grep '^GPGKey=' repo/index.flatpakrepo | cut -d= -f2- | base64 -d > /tmp/repo-key.gpg
+          FLATPAK_USER_DIR=$(mktemp -d)
+          export FLATPAK_USER_DIR
+          flatpak --user remote-add --gpg-import=/tmp/repo-key.gpg verify "file://$PWD/repo"
+          for arch in x86_64 aarch64
+          do
+            flatpak --user -v remote-ls --arch="$arch" verify
+            for ref in "appstream/$arch" "appstream2/$arch"
+            do
+              if [ ! -f "repo/refs/heads/$ref" ]
+              then
+                echo "::error::Missing ref $ref"
+                exit 1
+              fi
+            done
+          done
+          flatpak --user -v update --appstream verify
       - name: Generate CNAME
         if: matrix.arch == 'aarch64'
         run: echo "$REPO_DOMAIN" > repo/CNAME
