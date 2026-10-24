@@ -60,33 +60,39 @@ modules:
       - type: archive
         only-arches:
           - x86_64
-        url: https://github.com/bwRavencl/ControllerBuddy/releases/download/1.10.144-9e26a84b/ControllerBuddy-linux-x86-64-1.10.144-9e26a84b.tgz
-        sha256: 2eaf766c60d663585518379bb9aaac806e1dd484791c13be1cf88a3358af0ea7
+        url: 
+          https://github.com/bwRavencl/ControllerBuddy/releases/download/1.10.146-c731d1d6/ControllerBuddy-linux-x86-64-1.10.146-c731d1d6.tgz
+        sha256: dce81e06a0beb260191a5b9c6efb8c23b344d22ec85201630f1258e81b0b4b36
         strip-components: 0
         x-checker-data:
           type: anitya
           project-id: 376393
           stable-only: false
-          url-template: https://github.com/bwRavencl/ControllerBuddy/releases/download/$version/ControllerBuddy-linux-x86-64-$version.tgz
+          url-template: 
+            https://github.com/bwRavencl/ControllerBuddy/releases/download/$version/ControllerBuddy-linux-x86-64-$version.tgz
       - type: archive
         only-arches:
           - aarch64
-        url: https://github.com/bwRavencl/ControllerBuddy/releases/download/1.10.144-9e26a84b/ControllerBuddy-linux-aarch64-1.10.144-9e26a84b.tgz
-        sha256: 46e88224c9046bc172d2bb2be6dc3f125a988250d18fa1a548f9237ccca4ee1f
+        url: 
+          https://github.com/bwRavencl/ControllerBuddy/releases/download/1.10.146-c731d1d6/ControllerBuddy-linux-aarch64-1.10.146-c731d1d6.tgz
+        sha256: d91c415726e1e3fbddeb6b71f388ba6e5b9cfcef3ac1d2a63f40744d69269db0
         strip-components: 0
         x-checker-data:
           type: anitya
           project-id: 376393
           stable-only: false
-          url-template: https://github.com/bwRavencl/ControllerBuddy/releases/download/$version/ControllerBuddy-linux-aarch64-$version.tgz
+          url-template: 
+            https://github.com/bwRavencl/ControllerBuddy/releases/download/$version/ControllerBuddy-linux-aarch64-$version.tgz
       - type: file
-        url: https://raw.githubusercontent.com/bwRavencl/ControllerBuddy/refs/tags/1.7.77-6482e2d0/icon/icon.svg
+        url: 
+          https://raw.githubusercontent.com/bwRavencl/ControllerBuddy/refs/tags/1.7.77-6482e2d0/icon/icon.svg
         sha256: 22cb081b000a30f248e6c5f842a9519d933339d01449fe2889e3379cc5628523
         x-checker-data:
           type: anitya
           project-id: 376393
           stable-only: false
-          url-template: https://raw.githubusercontent.com/bwRavencl/ControllerBuddy/refs/tags/$version/icon/icon.svg
+          url-template: 
+            https://raw.githubusercontent.com/bwRavencl/ControllerBuddy/refs/tags/$version/icon/icon.svg
       - type: file
         path: launch.sh
       - type: file
