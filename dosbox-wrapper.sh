@@ -1,12 +1,10 @@
 #!/usr/bin/env bash
 
-wrapper_utils_sh=wrapper-utils.sh
-readonly wrapper_utils_sh
+readonly wrapper_utils_sh=wrapper-utils.sh
 wrapper_utils_sh_path="$(dirname "${BASH_SOURCE[0]}")/$wrapper_utils_sh"
 readonly wrapper_utils_sh_path
 
-dosbox_app_id=io.github.dosbox-staging
-readonly dosbox_app_id
+readonly dosbox_app_id=io.github.dosbox-staging
 
 if [[ -f "$wrapper_utils_sh_path" ]]
 then
@@ -25,8 +23,7 @@ fi
 
 resolve_cb_profile "$1"
 
-dosbox_conf="$2"
-readonly dosbox_conf
+readonly dosbox_conf="$2"
 
 if [ ! -f "$dosbox_conf" ]
 then
@@ -34,8 +31,7 @@ then
     exit 1
 fi
 
-mouse_sensitivity="${3:-1.0}"
-readonly mouse_sensitivity
+readonly mouse_sensitivity="${3:-1.0}"
 
 if [[ ! "$mouse_sensitivity" =~ ^-?[0-9]*\.?[0-9]+$ ]]
 then

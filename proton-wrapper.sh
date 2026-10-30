@@ -1,15 +1,11 @@
 #!/usr/bin/env bash
 
-wrapper_utils_sh=wrapper-utils.sh
-readonly wrapper_utils_sh
+readonly wrapper_utils_sh=wrapper-utils.sh
 wrapper_utils_sh_path="$(dirname "${BASH_SOURCE[0]}")/$wrapper_utils_sh"
 readonly wrapper_utils_sh_path
 
-protontricks_app_id=com.github.Matoking.protontricks
-readonly protontricks_app_id
-
-configure_ps1=Configure.ps1
-readonly configure_ps1
+readonly protontricks_app_id=com.github.Matoking.protontricks
+readonly configure_ps1=Configure.ps1
 
 if [[ -f "$wrapper_utils_sh_path" ]]
 then

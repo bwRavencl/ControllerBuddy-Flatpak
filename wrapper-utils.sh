@@ -12,12 +12,13 @@ then
     exit 1
 fi
 
-script_name=$(basename "${BASH_SOURCE[-1]}")
+script_path=$(realpath "${BASH_SOURCE[-1]}")
+readonly script_path
+readonly script_args=("$@")
+script_name=$(basename "$script_path")
 readonly script_name
-cb_app_id=de.bwravencl.ControllerBuddy
-readonly cb_app_id
-cb_device_name='ControllerBuddy Joystick'
-readonly cb_device_name
+readonly cb_app_id=de.bwravencl.ControllerBuddy
+readonly cb_device_name='ControllerBuddy Joystick'
 
 exec_on_exit() {
     local -r command="$1"
@@ -92,9 +93,7 @@ show_message() {
 
     if ! zenity --"$level" --text="<b>${level^}</b>\n$message"
     then
-        local plain
-        plain=$(sed -e 's/<[^>]*>//g' -e 's/&lt;/</g' -e 's/&gt;/>/g' -e 's/&amp;/\&/g' <<< "$message")
-        readonly plain
+        local -r plain=$(sed -e 's/<[^>]*>//g' -e 's/&lt;/</g' -e 's/&gt;/>/g' -e 's/&amp;/\&/g' <<< "$message")
         echo -e "${level^}: $plain" >&"$target_fd"
     fi
 }
@@ -144,10 +143,34 @@ resolve_cb_profile() {
 }
 
 update_cb() {
+    if [[ -n "$CB_WRAPPER_RESTARTED" ]]
+    then
+        return
+    fi
+
     show_progress 'Updating ControllerBuddy...'
 
-    flatpak update -y --noninteractive "$cb_app_id" ||
-    show_message warning 'Failed to update ControllerBuddy via Flatpak'
+    local -r old_location=$(realpath "$(flatpak info -l "$cb_app_id" 2>/dev/null)" 2>/dev/null)
+
+    if ! flatpak update -y --noninteractive "$cb_app_id"
+    then
+        show_message warning 'Failed to update ControllerBuddy via Flatpak'
+        return
+    fi
+
+    local -r new_location=$(realpath "$(flatpak info -l "$cb_app_id" 2>/dev/null)" 2>/dev/null)
+
+    if [[ -n "$old_location" && -n "$new_location" && "$new_location" != "$old_location" && "$script_path" == "$old_location"/* ]]
+    then
+        local -r new_script_path="$new_location/${script_path#"$old_location"/}"
+
+        if [[ -f "$new_script_path" ]]
+        then
+            close_progress
+            export CB_WRAPPER_RESTARTED=1
+            exec "$new_script_path" "${script_args[@]}"
+        fi
+    fi
 }
 
 launch_cb() {
