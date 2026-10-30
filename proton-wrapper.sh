@@ -211,11 +211,8 @@ check_retval 'Failed to add joystick registry overrides'
 rm -f "$reg_file"
 remove_on_exit "$rm_reg_cmd"
 
-cb_flatpak_dir=$(flatpak info -l "$cb_app_id")
+configs_dir="$(flatpak info -l "$cb_app_id")/files/share/ControllerBuddy-Profiles/configs"
 check_retval 'Failed to retrieve Flatpak installation directory for ControllerBuddy'
-readonly cb_flatpak_dir
-
-configs_dir="$(realpath -s "$cb_flatpak_dir/../active/files/share/ControllerBuddy-Profiles")/configs"
 readonly configs_dir
 
 config_dir="$configs_dir/$(resolve_config_dir_name "$cb_profile")"
