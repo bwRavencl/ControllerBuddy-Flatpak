@@ -2,7 +2,7 @@
 
 wrapper_utils_sh=wrapper-utils.sh
 readonly wrapper_utils_sh
-wrapper_utils_sh_path="$(dirname "${BASH_SOURCE[0]}")/wrapper-utils.sh"
+wrapper_utils_sh_path="$(dirname "${BASH_SOURCE[0]}")/$wrapper_utils_sh"
 readonly wrapper_utils_sh_path
 
 dosbox_app_id=io.github.dosbox-staging
@@ -30,7 +30,7 @@ readonly dosbox_conf
 
 if [ ! -f "$dosbox_conf" ]
 then
-    show_message error "DOSBox configuration file does not exist:\n<tt><small>$dosbox_conf</small></tt>"
+    show_message error "DOSBox configuration file does not exist:\n<tt><small>$(markup_escape "$dosbox_conf")</small></tt>"
     exit 1
 fi
 
@@ -39,19 +39,25 @@ readonly mouse_sensitivity
 
 if [[ ! "$mouse_sensitivity" =~ ^-?[0-9]*\.?[0-9]+$ ]]
 then
-    show_message error "Invalid mouse sensitivity value: <tt><small>$mouse_sensitivity</small></tt>\nThe value must be a valid floating-point number."
+    show_message error "Invalid mouse sensitivity value: <tt><small>$(markup_escape "$mouse_sensitivity")</small></tt>\nThe value must be a valid floating-point number."
     exit 1
 fi
+
+ensure_flatpak_app_installed "$dosbox_app_id" 'DOSBox Staging'
 
 update_cb
 launch_cb "$cb_profile_json"
 
-ensure_flatpak_app_installed "$dosbox_app_id" 'DOSBox Staging'
-
 close_progress
 
+js_dev=$(awk -v RS='' -v name="$cb_device_name" \
+    'index($0, "Name=\"" name "\"") && match($0, /js[0-9]+/) { print substr($0, RSTART, RLENGTH); exit }' \
+    /proc/bus/input/devices)
+[[ -n "$js_dev" ]] || { show_message error "Could not find the js device for $cb_device_name"; exit 1; }
+readonly js_dev
+
 cd "$(dirname "$dosbox_conf")" &&
-SDL_JOYSTICK_DEVICE="/dev/input/$(awk -v RS='' "/Name=\"$cb_device_name\"/{match(\$0, /js[0-9]+/); print substr(\$0, RSTART, RLENGTH); exit}" /proc/bus/input/devices)" \
+SDL_JOYSTICK_DEVICE="/dev/input/$js_dev" \
 SDL_MOUSE_RELATIVE_SPEED_SCALE="$mouse_sensitivity" \
 flatpak run "$dosbox_app_id" -conf "$dosbox_conf"
 check_retval 'Failed to launch DOSBox'

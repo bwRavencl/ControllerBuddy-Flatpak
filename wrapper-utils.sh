@@ -25,16 +25,8 @@ exec_on_exit() {
     on_exit_commands+=("$command")
 }
 
-pop_on_exit() {
-    if [ "${#on_exit_commands[@]}" -gt 0 ]
-    then
-        unset 'on_exit_commands[-1]'
-        on_exit_commands=("${on_exit_commands[@]}")
-    fi
-}
-
 remove_on_exit() {
-    local command="$1"
+    local -r command="$1"
 
     local i
     for i in "${!on_exit_commands[@]}"
@@ -49,11 +41,10 @@ remove_on_exit() {
 }
 
 on_exit() {
-    local command
-    for command in "${on_exit_commands[@]}"
+    local i
+    for (( i = ${#on_exit_commands[@]} - 1; i >= 0; i-- ))
     do
-        echo "eval $command"
-        eval "$command"
+        eval "${on_exit_commands[i]}"
     done
 }
 
@@ -76,6 +67,16 @@ zenity() {
     flatpak run --command=zenity "$cb_app_id" --title="ControllerBuddy - $script_name" --width=450 --window-icon=/app/lib/ControllerBuddy.png "$@"
 }
 
+markup_escape() {
+    local s="$1"
+
+    s="${s//&/&amp;}"
+    s="${s//</&lt;}"
+    s="${s//>/&gt;}"
+
+    printf '%s' "$s"
+}
+
 show_message() {
     local -r level="$1"
     local -r message="$2"
@@ -89,8 +90,13 @@ show_message() {
     fi
     readonly target_fd
 
-    zenity --"$level" --text="<b>${level^}</b>\n$message" ||
-    echo -e "${level^}: $message" >&"$target_fd"
+    if ! zenity --"$level" --text="<b>${level^}</b>\n$message"
+    then
+        local plain
+        plain=$(sed -e 's/<[^>]*>//g' -e 's/&lt;/</g' -e 's/&gt;/>/g' -e 's/&amp;/\&/g' <<< "$message")
+        readonly plain
+        echo -e "${level^}: $plain" >&"$target_fd"
+    fi
 }
 
 show_progress() {
@@ -102,13 +108,13 @@ show_progress() {
         exec_on_exit close_progress
     fi
 
-    echo "# $text" >&"$zenity_fd"
+    (echo "# $text" >&"$zenity_fd") 2>/dev/null
 }
 
 close_progress() {
     if [[ -n "$zenity_fd" ]]
     then
-        echo "100" >&"$zenity_fd"
+        (echo "100" >&"$zenity_fd") 2>/dev/null
         exec {zenity_fd}>&-
         unset zenity_fd
     fi
@@ -134,13 +140,13 @@ resolve_cb_profile() {
     cb_profile_json="/app/share/ControllerBuddy-Profiles/$cb_profile.json"
 
     flatpak run --command=test "$cb_app_id" -e "$cb_profile_json"
-    check_retval "Profile does not exist: <tt><small>$cb_profile_json</small></tt>"
+    check_retval "Profile does not exist: <tt><small>$(markup_escape "$cb_profile_json")</small></tt>"
 }
 
 update_cb() {
     show_progress 'Updating ControllerBuddy...'
 
-    flatpak update -y  --noninteractive "$cb_app_id" ||
+    flatpak update -y --noninteractive "$cb_app_id" ||
     show_message warning 'Failed to update ControllerBuddy via Flatpak'
 }
 
@@ -151,7 +157,7 @@ launch_cb() {
 
     flatpak run "$cb_app_id" -autostart local -profile "$cb_profile_json" -tray &
     local -r cb_pid=$!
-    exec_on_exit 'killall -q ControllerBuddy'
+    exec_on_exit "flatpak kill $cb_app_id"
 
     while true
     do
@@ -195,7 +201,7 @@ ensure_flatpak_app_installed() {
     local -r app_id="$1"
     local -r display_name="$2"
 
-    if ! flatpak list --app | grep -q "$app_id"
+    if ! flatpak info "$app_id" &>/dev/null
     then
         show_progress "Installing $display_name..."
 

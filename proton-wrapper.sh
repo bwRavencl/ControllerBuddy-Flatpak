@@ -2,7 +2,7 @@
 
 wrapper_utils_sh=wrapper-utils.sh
 readonly wrapper_utils_sh
-wrapper_utils_sh_path="$(dirname "${BASH_SOURCE[0]}")/wrapper-utils.sh"
+wrapper_utils_sh_path="$(dirname "${BASH_SOURCE[0]}")/$wrapper_utils_sh"
 readonly wrapper_utils_sh_path
 
 protontricks_app_id=com.github.Matoking.protontricks
@@ -26,9 +26,10 @@ check_dep() {
 
     if [[ "$target" == lib* ]]
     then
-        ldconfig -p | grep -q "$target"
+        bypass_steam_runtime ldconfig -p | grep -qF "$target "
     else
-        command -v "$target" >/dev/null 2>&1
+        # shellcheck disable=SC2016
+        bypass_steam_runtime bash -c 'type -P "$1"' _ "$target" >/dev/null 2>&1
     fi
     check_retval "Failed to locate <tt><small>$target</small></tt>\nPlease check that $name is installed."
 }
@@ -48,7 +49,7 @@ resolve_config_dir_name() {
             echo Falcon_BMS
             ;;
         *)
-            echo "$1"
+            echo "$cb_profile"
             ;;
     esac
 }
@@ -88,7 +89,7 @@ fi
 show_progress 'Checking dependencies...'
 
 check_dep python3 'Python 3'
-check_dep libSDL2 SDL2
+check_dep libSDL2-2.0.so.0 SDL2
 
 ensure_flatpak_app_installed "$protontricks_app_id" Protontricks
 
@@ -99,25 +100,27 @@ show_progress 'Adding joystick overrides...'
 
 reg_file=$(mktemp -p '' joysticks-XXXX.reg) &&
 readonly reg_file &&
-exec_on_exit "rm -f $reg_file" EXIT &&
+rm_reg_cmd="rm -f $(printf '%q' "$reg_file")" &&
+readonly rm_reg_cmd &&
+exec_on_exit "$rm_reg_cmd" &&
 python3 - <<'EOF' "$reg_file" &&
 import ctypes
 import ctypes.util
 import sys
 
-sdl2_path = ctypes.util.find_library("SDL2")
-if not sdl2_path:
-    raise RuntimeError("Could not find SDL2 library")
+sdl2_path = ctypes.util.find_library("SDL2") or "libSDL2-2.0.so.0"
 
-sdl = ctypes.CDLL(sdl2_path)
-
-Uint16 = ctypes.c_uint16
-Uint32 = ctypes.c_uint32
-class SDL_JoystickGUID(ctypes.Structure):
-    _fields_ = [("data", ctypes.c_uint8 * 16)]
+try:
+    sdl = ctypes.CDLL(sdl2_path)
+except OSError as e:
+    print(f"Error: Could not load SDL2: {e}", file=sys.stderr)
+    sys.exit(1)
 
 sdl.SDL_Init.argtypes = [ctypes.c_uint32]
 sdl.SDL_Init.restype = ctypes.c_int
+
+sdl.SDL_GetError.argtypes = []
+sdl.SDL_GetError.restype = ctypes.c_char_p
 
 sdl.SDL_Quit.argtypes = []
 sdl.SDL_Quit.restype = None
@@ -128,16 +131,16 @@ sdl.SDL_NumJoysticks.restype = ctypes.c_int
 sdl.SDL_JoystickNameForIndex.argtypes = [ctypes.c_int]
 sdl.SDL_JoystickNameForIndex.restype = ctypes.c_char_p
 
-sdl.SDL_JoystickGetDeviceGUID.argtypes = [ctypes.c_int]
-sdl.SDL_JoystickGetDeviceGUID.restype = SDL_JoystickGUID
+sdl.SDL_JoystickGetDeviceVendor.argtypes = [ctypes.c_int]
+sdl.SDL_JoystickGetDeviceVendor.restype = ctypes.c_uint16
 
-sdl.SDL_GetJoystickGUIDInfo.argtypes = [SDL_JoystickGUID, ctypes.POINTER(Uint16), ctypes.POINTER(Uint16), ctypes.POINTER(Uint16), ctypes.POINTER(Uint16)]
-sdl.SDL_GetJoystickGUIDInfo.restype = None
+sdl.SDL_JoystickGetDeviceProduct.argtypes = [ctypes.c_int]
+sdl.SDL_JoystickGetDeviceProduct.restype = ctypes.c_uint16
 
 SDL_INIT_JOYSTICK = 0x00002000
 
 if sdl.SDL_Init(SDL_INIT_JOYSTICK) != 0:
-    print("SDL_Init failed:", sdl.SDL_GetError().decode("utf-8"))
+    print("SDL_Init failed:", sdl.SDL_GetError().decode("utf-8", errors="replace"), file=sys.stderr)
     sys.exit(1)
 
 # see: https://github.com/wine-mirror/wine/blob/master/dlls/hidclass.sys/device.c
@@ -168,19 +171,12 @@ for i in range(count):
     name_ptr = sdl.SDL_JoystickNameForIndex(i)
     if not name_ptr:
         continue
-    name = name_ptr.decode("utf-8")
+    name = name_ptr.decode("utf-8", errors="replace")
 
     if name == "ControllerBuddy Joystick":
         continue
 
-    guid = sdl.SDL_JoystickGetDeviceGUID(i)
-    vendor = Uint16()
-    product = Uint16()
-    version = Uint16()
-    crc16 = Uint16()
-    sdl.SDL_GetJoystickGUIDInfo(guid, ctypes.byref(vendor), ctypes.byref(product), ctypes.byref(version), ctypes.byref(crc16))
-
-    key = (vendor.value, product.value)
+    key = (sdl.SDL_JoystickGetDeviceVendor(i), sdl.SDL_JoystickGetDeviceProduct(i))
     if key in device_strings:
         name = device_strings[key]
 
@@ -201,8 +197,8 @@ for name in joysticks:
 
 if len(sys.argv) > 1:
     path = sys.argv[1]
-    with open(path, "w", encoding="utf-16") as f:
-        f.write("\ufeffWindows Registry Editor Version 5.00\n\n")
+    with open(path, "w", encoding="utf-16", newline="\r\n") as f:
+        f.write("Windows Registry Editor Version 5.00\n\n")
         f.write("[HKEY_CURRENT_USER\\Software\\Wine\\DirectInput\\Joysticks]\n")
         for name in joysticks:
             safe_name = escape_reg_string(name)
@@ -210,10 +206,10 @@ if len(sys.argv) > 1:
     print(f"Wrote registry file: {path}")
 EOF
 
-flatpak run --filesystem="$reg_file":ro "$protontricks_app_id" -c "wine reg import '$reg_file'" "$SteamAppId"
+flatpak run --filesystem="$reg_file":ro "$protontricks_app_id" -c "wine reg import $(printf '%q' "$reg_file") && wineserver -w" "$SteamAppId"
 check_retval 'Failed to add joystick registry overrides'
 rm -f "$reg_file"
-pop_on_exit
+remove_on_exit "$rm_reg_cmd"
 
 cb_flatpak_dir=$(flatpak info -l "$cb_app_id")
 check_retval 'Failed to retrieve Flatpak installation directory for ControllerBuddy'
@@ -253,7 +249,7 @@ then
 
     (
         cd "$config_dir" &&
-        WINEDEBUG=-all flatpak run --filesystem="$configs_dir" "$protontricks_app_id" -c "wine wineconsole pwsh $configure_ps1" "$SteamAppId"
+        WINEDEBUG=-all flatpak run --filesystem="$configs_dir" "$protontricks_app_id" -c "wine wineconsole pwsh $configure_ps1 && wineserver -w" "$SteamAppId"
     ) || show_message warning 'Failed to run configuration script'
 fi
 
