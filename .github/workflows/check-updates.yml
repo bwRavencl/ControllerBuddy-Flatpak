@@ -24,6 +24,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+          submodules: true
       - name: Flatpak External Data Checker
         uses: docker://ghcr.io/flathub-infra/flatpak-external-data-checker:latest@sha256:873f3bcbe2c5eca48220df5b84ef31791aaa9a00b85e127deb5db2695e553df7
         env:
