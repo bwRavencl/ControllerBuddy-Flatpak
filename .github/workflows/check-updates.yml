@@ -28,7 +28,7 @@ jobs:
           persist-credentials: false
           submodules: true
       - name: Flatpak External Data Checker
-        uses: docker://ghcr.io/flathub-infra/flatpak-external-data-checker:latest@sha256:873f3bcbe2c5eca48220df5b84ef31791aaa9a00b85e127deb5db2695e553df7
+        uses: docker://ghcr.io/flathub-infra/flatpak-external-data-checker:latest@sha256:552eca699777fb4486831379ffede53b24f5b26a1b78c20aa9605900fc3e4198
         env:
           GIT_AUTHOR_NAME: Flatpak External Data Checker
           GIT_COMMITTER_NAME: Flatpak External Data Checker
