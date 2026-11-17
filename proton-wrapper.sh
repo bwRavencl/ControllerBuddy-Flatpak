@@ -243,7 +243,10 @@ then
     (
         cd "$config_dir" &&
         WINEDEBUG=-all flatpak run --filesystem="$configs_dir" "$protontricks_app_id" -c "wine wineconsole pwsh $configure_ps1 && wineserver -w" "$SteamAppId"
-    ) || show_message warning 'Failed to run configuration script'
+    ) || {
+        close_progress
+        zenity --question --text='<b>Error</b>\nFailed to run configuration script.\nThis can be expected if the game has not created its configuration files yet.\n\nDo you want to continue launching anyway?' --ok-label=Continue --cancel-label=Abort || exit 1
+    }
 fi
 
 close_progress
