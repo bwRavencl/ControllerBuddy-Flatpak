@@ -145,6 +145,9 @@ jobs:
             done
           done
           flatpak --user -v update --appstream verify
+          ostree --repo=/tmp/vrepo init --mode=bare-user
+          ostree --repo=/tmp/vrepo remote add --gpg-import=/tmp/repo-key.gpg verify "file://$PWD/repo"
+          ostree --repo=/tmp/vrepo pull verify $(ostree --repo=repo refs)
       - name: Generate CNAME
         if: matrix.arch == 'aarch64'
         run: echo "$REPO_DOMAIN" > repo/CNAME
