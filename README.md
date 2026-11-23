@@ -13,19 +13,13 @@ In addition to the application itself, the package includes:
 
 ## ⬇️ Installation
 
-To install the ControllerBuddy Flatpak package, follow these steps:
+Open [controllerbuddy.flatpakref](https://flatpak.controllerbuddy.org/controllerbuddy.flatpakref) with your software center, such as GNOME Software or KDE Discover.
 
-1. Add the repository with the following command:
+Alternatively, run from a terminal:
 
-    ```sh
-    flatpak remote-add --if-not-exists ControllerBuddy https://flatpak.controllerbuddy.org/index.flatpakrepo
-    ```
-
-2. Install the application by running:
-
-    ```sh
-    flatpak install -y ControllerBuddy de.bwravencl.ControllerBuddy
-    ```
+```sh
+flatpak install https://flatpak.controllerbuddy.org/controllerbuddy.flatpakref
+```
 
 ## 📜 Wrapper Scripts
 

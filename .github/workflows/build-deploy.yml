@@ -148,6 +148,42 @@ jobs:
           ostree --repo=/tmp/vrepo init --mode=bare-user
           ostree --repo=/tmp/vrepo remote add --gpg-import=/tmp/repo-key.gpg verify "file://$PWD/repo"
           ostree --repo=/tmp/vrepo pull verify $(ostree --repo=repo refs)
+      - name: Generate Flatpakref
+        if: matrix.arch == 'aarch64'
+        run: |
+          set -o pipefail
+          app_refs=$(ostree --repo=repo refs | grep '^app/' || true)
+          if [ -z "$app_refs" ]
+          then
+            echo "::error::No application refs found in the repo"
+            exit 1
+          fi
+          app_id=$(printf '%s\n' "$app_refs" | cut -d/ -f2 | sort -u)
+          branch=$(printf '%s\n' "$app_refs" | cut -d/ -f4 | sort -u)
+          if [ "$(printf '%s\n' "$app_id" | wc -l)" -ne 1 ] || [ "$(printf '%s\n' "$branch" | wc -l)" -ne 1 ]
+          then
+            echo "::error::Expected exactly one app ID and one branch, found: $app_refs"
+            exit 1
+          fi
+          gpg_key=$(grep '^GPGKey=' repo/index.flatpakrepo | cut -d= -f2-)
+          if [ -z "$gpg_key" ]
+          then
+            echo "::error::Could not read the GPG public key from index.flatpakrepo"
+            exit 1
+          fi
+          cat > repo/controllerbuddy.flatpakref <<EOF
+          [Flatpak Ref]
+          Name=$app_id
+          Branch=$branch
+          Title=$REPO_TITLE
+          Url=https://$REPO_DOMAIN
+          RuntimeRepo=https://dl.flathub.org/repo/flathub.flatpakrepo
+          Homepage=$REPO_HOMEPAGE
+          Icon=$REPO_ICON_URL
+          IsRuntime=false
+          SuggestRemoteName=$REPO_TITLE
+          GPGKey=$gpg_key
+          EOF
       - name: Generate CNAME
         if: matrix.arch == 'aarch64'
         run: echo "$REPO_DOMAIN" > repo/CNAME
