@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-if [[ "${BASH_SOURCE[0]}" == "$0" ]]
+if [[ ${BASH_SOURCE[0]} == "$0" ]]
 then
     echo "Error: $(basename "${BASH_SOURCE[0]}") is a library script and must be sourced, not executed directly." >&2
     exit 1
 fi
 
-if [[ "$OSTYPE" != linux* ]]
+if [[ $OSTYPE != linux* ]]
 then
     echo 'Error: This script must be run in a GNU/Linux Bash environment.' >&2
     exit 1
@@ -21,18 +21,18 @@ readonly cb_app_id=de.bwravencl.ControllerBuddy
 readonly cb_device_name='ControllerBuddy Joystick'
 
 exec_on_exit() {
-    local -r command="$1"
+    local -r command=$1
 
     on_exit_commands+=("$command")
 }
 
 remove_on_exit() {
-    local -r command="$1"
+    local -r command=$1
 
     local i
     for i in "${!on_exit_commands[@]}"
     do
-        if [[ "${on_exit_commands[i]}" == "$command" ]]
+        if [[ ${on_exit_commands[i]} == "$command" ]]
         then
             unset "on_exit_commands[i]"
         fi
@@ -69,23 +69,23 @@ zenity() {
 }
 
 markup_escape() {
-    local s="$1"
+    local s=$1
 
-    s="${s//&/&amp;}"
-    s="${s//</&lt;}"
-    s="${s//>/&gt;}"
+    s=${s//&/&amp;}
+    s=${s//</&lt;}
+    s=${s//>/&gt;}
 
     printf '%s' "$s"
 }
 
 show_message() {
-    local -r level="$1"
-    local -r message="$2"
+    local -r level=$1
+    local -r message=$2
 
     close_progress
 
     local target_fd=1
-    if [[ "$level" == error ]]
+    if [[ $level == error ]]
     then
         target_fd=2
     fi
@@ -94,14 +94,14 @@ show_message() {
     if ! zenity --"$level" --text="<b>${level^}</b>\n$message"
     then
         local -r plain=$(sed -e 's/<[^>]*>//g' -e 's/&lt;/</g' -e 's/&gt;/>/g' -e 's/&amp;/\&/g' <<< "$message")
-        echo -e "${level^}: $plain" >&"$target_fd"
+        echo -e "${level^}: $plain" >&$target_fd
     fi
 }
 
 show_progress() {
-    local -r text="$1"
+    local -r text=$1
 
-    if [[ -z "$zenity_fd" ]]
+    if [[ -z $zenity_fd ]]
     then
         exec {zenity_fd}> >(zenity --progress --pulsate --no-cancel --auto-close)
         exec_on_exit close_progress
@@ -111,7 +111,7 @@ show_progress() {
 }
 
 close_progress() {
-    if [[ -n "$zenity_fd" ]]
+    if [[ -n $zenity_fd ]]
     then
         (echo "100" >&"$zenity_fd") 2>/dev/null
         exec {zenity_fd}>&-
@@ -123,7 +123,7 @@ close_progress() {
 
 check_retval() {
     local -r retval=$?
-    local -r error_message="$1"
+    local -r error_message=$1
 
     if [ "$retval" -ne 0 ]
     then
@@ -133,17 +133,17 @@ check_retval() {
 }
 
 resolve_cb_profile() {
-    local -r profile_arg="$1"
+    local -r profile_arg=$1
 
-    cb_profile="${profile_arg%.json}"
-    cb_profile_json="/app/share/ControllerBuddy-Profiles/$cb_profile.json"
+    cb_profile=${profile_arg%.json}
+    cb_profile_json=/app/share/ControllerBuddy-Profiles/$cb_profile.json
 
     flatpak run --command=test "$cb_app_id" -e "$cb_profile_json"
     check_retval "Profile does not exist: <tt><small>$(markup_escape "$cb_profile_json")</small></tt>"
 }
 
 update_cb() {
-    if [[ -n "$CB_WRAPPER_RESTARTED" ]]
+    if [[ -n $CB_WRAPPER_RESTARTED ]]
     then
         return
     fi
@@ -160,11 +160,11 @@ update_cb() {
 
     local -r new_location=$(realpath "$(flatpak info -l "$cb_app_id" 2>/dev/null)" 2>/dev/null)
 
-    if [[ -n "$old_location" && -n "$new_location" && "$new_location" != "$old_location" && "$script_path" == "$old_location"/* ]]
+    if [[ -n $old_location && -n $new_location && $new_location != "$old_location" && $script_path == "$old_location"/* ]]
     then
-        local -r new_script_path="$new_location/${script_path#"$old_location"/}"
+        local -r new_script_path=$new_location/${script_path#"$old_location"/}
 
-        if [[ -f "$new_script_path" ]]
+        if [[ -f $new_script_path ]]
         then
             close_progress
             export CB_WRAPPER_RESTARTED=1
@@ -174,7 +174,7 @@ update_cb() {
 }
 
 launch_cb() {
-    local -r cb_profile_json="$1"
+    local -r cb_profile_json=$1
 
     show_progress 'Launching ControllerBuddy...'
 
@@ -221,8 +221,8 @@ launch_cb() {
 }
 
 ensure_flatpak_app_installed() {
-    local -r app_id="$1"
-    local -r display_name="$2"
+    local -r app_id=$1
+    local -r display_name=$2
 
     if ! flatpak info "$app_id" &>/dev/null
     then

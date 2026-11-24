@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
 readonly wrapper_utils_sh=wrapper-utils.sh
-wrapper_utils_sh_path="$(dirname "${BASH_SOURCE[0]}")/$wrapper_utils_sh"
+wrapper_utils_sh_path=$(dirname "${BASH_SOURCE[0]}")/$wrapper_utils_sh
 readonly wrapper_utils_sh_path
 
 readonly protontricks_app_id=com.github.Matoking.protontricks
 readonly configure_ps1=Configure.ps1
 
-if [[ -f "$wrapper_utils_sh_path" ]]
+if [[ -f $wrapper_utils_sh_path ]]
 then
     # shellcheck source=./wrapper-utils.sh
     source "$wrapper_utils_sh_path"
@@ -17,10 +17,10 @@ else
 fi
 
 check_dep() {
-    local -r target="$1"
-    local -r name="${2:-$target}"
+    local -r target=$1
+    local -r name=${2:-$target}
 
-    if [[ "$target" == lib* ]]
+    if [[ $target == lib* ]]
     then
         bypass_steam_runtime ldconfig -p | grep -qF "$target "
     else
@@ -35,9 +35,9 @@ python3() {
 }
 
 resolve_config_dir_name() {
-    local -r cb_profile="$1"
+    local -r cb_profile=$1
 
-    case "$cb_profile" in
+    case $cb_profile in
         DCS_*)
             echo DCS
             ;;
@@ -51,9 +51,9 @@ resolve_config_dir_name() {
 }
 
 get_protontricks_verbs() {
-    local -r cb_profile="$1"
+    local -r cb_profile=$1
 
-    case "$cb_profile" in
+    case $cb_profile in
         DCS_*)
             echo 'd3dcompiler_47 vcrun2022'
             ;;
@@ -66,7 +66,7 @@ get_protontricks_verbs() {
     esac
 }
 
-if [ "$#" -lt 2 ]
+if [ $# -lt 2 ]
 then
     show_message error "Invalid launch arguments for $script_name\nUsage:\n<tt><small>$script_name &lt;profile.json&gt; %command%</small></tt>"
     exit 1
@@ -207,11 +207,11 @@ check_retval 'Failed to add joystick registry overrides'
 rm -f "$reg_file"
 remove_on_exit "$rm_reg_cmd"
 
-configs_dir="$(flatpak info -l "$cb_app_id")/files/share/ControllerBuddy-Profiles/configs"
+configs_dir=$(flatpak info -l "$cb_app_id")/files/share/ControllerBuddy-Profiles/configs
 check_retval 'Failed to retrieve Flatpak installation directory for ControllerBuddy'
 readonly configs_dir
 
-config_dir="$configs_dir/$(resolve_config_dir_name "$cb_profile")"
+config_dir=$configs_dir/$(resolve_config_dir_name "$cb_profile")
 readonly config_dir
 
 has_configure_ps1=false
@@ -228,7 +228,7 @@ then
 fi
 readonly protontricks_verbs
 
-if [ "${#protontricks_verbs[@]}" -gt 0 ]
+if [ ${#protontricks_verbs[@]} -gt 0 ]
 then
     show_progress 'Running Protontricks...'
 

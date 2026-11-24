@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
 readonly wrapper_utils_sh=wrapper-utils.sh
-wrapper_utils_sh_path="$(dirname "${BASH_SOURCE[0]}")/$wrapper_utils_sh"
+wrapper_utils_sh_path=$(dirname "${BASH_SOURCE[0]}")/$wrapper_utils_sh
 readonly wrapper_utils_sh_path
 
 readonly dosbox_app_id=io.github.dosbox-staging
 
-if [[ -f "$wrapper_utils_sh_path" ]]
+if [[ -f $wrapper_utils_sh_path ]]
 then
     # shellcheck source=./wrapper-utils.sh
     source "$wrapper_utils_sh_path"
@@ -15,7 +15,7 @@ else
     exit 1
 fi
 
-if [[ "$#" -lt 2 || "$#" -gt 3 ]]
+if [[ $# -lt 2 || $# -gt 3 ]]
 then
     show_message error "Invalid launch arguments for $script_name\nUsage:\n<tt><small>$script_name &lt;profile.json&gt; &lt;dosbox.conf&gt; [mouse_sensitivity]</small></tt>"
     exit 1
@@ -23,7 +23,7 @@ fi
 
 resolve_cb_profile "$1"
 
-readonly dosbox_conf="$2"
+readonly dosbox_conf=$2
 
 if [ ! -f "$dosbox_conf" ]
 then
@@ -31,9 +31,9 @@ then
     exit 1
 fi
 
-readonly mouse_sensitivity="${3:-1.0}"
+readonly mouse_sensitivity=${3:-1.0}
 
-if [[ ! "$mouse_sensitivity" =~ ^-?[0-9]*\.?[0-9]+$ ]]
+if [[ ! $mouse_sensitivity =~ ^-?[0-9]*\.?[0-9]+$ ]]
 then
     show_message error "Invalid mouse sensitivity value: <tt><small>$(markup_escape "$mouse_sensitivity")</small></tt>\nThe value must be a valid floating-point number."
     exit 1
@@ -49,11 +49,11 @@ close_progress
 js_dev=$(awk -v RS='' -v name="$cb_device_name" \
     'index($0, "Name=\"" name "\"") && match($0, /js[0-9]+/) { print substr($0, RSTART, RLENGTH); exit }' \
     /proc/bus/input/devices)
-[[ -n "$js_dev" ]] || { show_message error "Could not find the js device for $cb_device_name"; exit 1; }
+[[ -n $js_dev ]] || { show_message error "Could not find the js device for $cb_device_name"; exit 1; }
 readonly js_dev
 
 cd "$(dirname "$dosbox_conf")" &&
-SDL_JOYSTICK_DEVICE="/dev/input/$js_dev" \
-SDL_MOUSE_RELATIVE_SPEED_SCALE="$mouse_sensitivity" \
+SDL_JOYSTICK_DEVICE=/dev/input/$js_dev \
+SDL_MOUSE_RELATIVE_SPEED_SCALE=$mouse_sensitivity \
 flatpak run "$dosbox_app_id" -conf "$dosbox_conf"
 check_retval 'Failed to launch DOSBox'
