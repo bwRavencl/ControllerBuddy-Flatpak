@@ -1,0 +1,42 @@
+name: Update Manifest
+
+on:
+  repository_dispatch:
+    types:
+      - new-release
+  schedule:
+    - cron: 0 */6 * * *
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+jobs:
+  update-manifest:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+          submodules: true
+      - name: Flatpak External Data Checker
+        uses: docker://ghcr.io/flathub-infra/flatpak-external-data-checker:latest@sha256:666011ffa6e7f0de6c92ddeb5e9e728e90e0012a0abdd31d10135c7133141b7e
+        env:
+          GIT_AUTHOR_NAME: Flatpak External Data Checker
+          GIT_COMMITTER_NAME: Flatpak External Data Checker
+          GIT_AUTHOR_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+          GIT_COMMITTER_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GIT_CONFIG_COUNT: 1
+          GIT_CONFIG_KEY_0: safe.directory
+          GIT_CONFIG_VALUE_0: '*'
+        with:
+          args: --update --never-fork de.bwravencl.ControllerBuddy.yml
